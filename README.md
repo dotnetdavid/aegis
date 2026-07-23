@@ -1,6 +1,6 @@
 # Aegis
 
-![Aegis: governed AI-assisted software delivery](assets/aegis-hero.png)
+![Aegis: Build with AI. Decide with confidence.](assets/aegis-hero-v2.png)
 
 ## Executive Overview
 
