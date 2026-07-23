@@ -2,8 +2,6 @@
 
 ![Aegis: governed AI-assisted software delivery](assets/aegis-hero.png)
 
-> Canonical Codex skill identifier: `aegis`. The project folder remains `ai-sdlc` for continuity.
-
 ## Executive Overview
 
 Aegis turns AI-assisted development into a disciplined, evidence-led workflow that still moves at practical speed. Unlike an unchecked prompt-to-code approach or a heavyweight one-size-fits-all process, it scales planning, verification, and human approval to the risk of the work. Leaders get clearer decisions, stronger release confidence, and a durable record of why the project is worth doing.
