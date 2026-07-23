@@ -1,0 +1,11 @@
+# Local Aegis project-management and audit records. Keep them on disk, but do
+# not publish them with the distributable skill.
+AGENTS.md
+build-package.md
+grounding-proposal.md
+journal.md
+spec.md
+status.md
+release/
+reviews/
+verification/

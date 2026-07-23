@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aegis"
+  short_description: "Governed AI-assisted software delivery"
+  default_prompt: "Use $aegis to guide this project through its governed AI-assisted delivery lifecycle."
