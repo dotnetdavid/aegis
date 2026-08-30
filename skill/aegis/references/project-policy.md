@@ -42,6 +42,24 @@ When project instructions, `AGENTS.md`, code, contracts, tests, approved artifac
 
 Do not silently choose a precedence rule, infer that newer prose wins, or let a delivery agent resolve the conflict locally. Security red lines remain non-negotiable: no secret exposure, unsafe credential handling, or quietly accepted dangerous pattern is made permissible by a conflict decision.
 
+## Master-Specification Authority
+
+The project-root `spec.md` is the one current product requirements and
+architecture authority for an Aegis-governed project. The AI SDLC Policy,
+`AGENTS.md`, backlog, chat, scope record, build package, review, receipt, and
+other historical evidence cannot override it. New projects create this file
+once; enhancements and remediation amend the existing file through approved
+change control and never create a second specification.
+
+Every governed run validates the current master spec before planning and writes
+a new immutable package bound to its spec identity and covered requirement IDs;
+a trivial governed run may use a concise package but cannot omit that binding.
+If a request lacks a spec, carries unsafe metadata, names missing/stale/unknown/
+duplicate/retired IDs, attempts sidecar authority, or changes final spec text
+without an approved mapping, stop and route one focused resolution question to
+the HITL. Maintain append-only authority/inventory evidence; preserve prior
+records as non-authoritative history.
+
 ## PM, HITL, and Delivery Roles
 
 The initiating agent is the non-implementing product manager (PM) and acts as the Principal Engineer responsible for product and project management. The PM:
@@ -95,7 +113,82 @@ Both pre-code and post-implementation reviews must explicitly assess:
 
 For each dimension, record the finding, evidence, applicability, and outcome: fixed, accepted as a documented risk, or escalated to the HITL. A statement that monitoring is not applicable must explain why; it is not a blank checkbox.
 
+### PII Check and Privacy Stop
+
+Every SecOps review includes a PII check of the authorized affected codebase
+and artifacts. A user may request the same bounded check within an authorized
+project boundary. SecOps uses available approved review methods; Aegis does not
+require a scanner or certify that a clean result proves no PII exists.
+
+SecOps finishes the authorized scan before pausing. It records every suspected
+PII finding as P0 with a stable ID, repository-relative file, line, unresolved
+state, and later HITL disposition. Durable review and lifecycle records must
+not include the suspected value or source snippet.
+
+After evidence gathering, any suspected finding pauses workflow progression.
+Only the HITL may record a disposition for each finding: modify the code,
+direct removal, or approve a documented exemption. The pause remains until
+every finding has a HITL disposition, and clearing it neither approves nor
+advances a gate.
+
+If SecOps cannot complete the authorized scan, record `scan incomplete` with
+the affected scope and limitation; the workflow remains paused. A clean outcome
+records its scope, methods, and material limitations. It is not a certification
+that no PII exists.
+
+## Contract-First Work Items
+
+Contract-first control applies to every product-changing work item: code,
+configuration, infrastructure, documentation, templates, and skill guidance.
+Executable work uses a test contract; non-executable work uses an
+artifact-appropriate validation contract.
+
+Before G4, the tester creates the approved contract and planned check design
+only. G4 is the hard stop before any actual test/validation check artifact or
+product artifact. After G4, the tester creates the actual check artifact; an
+independent PE approves its adequacy; only then may paired product work begin;
+actual T/V execution follows product work. The PM may create, review, execute,
+and record the complete lifecycle for trivial work when the PM records the
+classification rationale. High/critical and security/privacy-sensitive work
+cannot use this exception. G4 remains mandatory for every work item.
+
+Each contract records, at minimum:
+
+- unique work-item ID, contract ID, revision, and lineage;
+- exact master-spec requirement and acceptance criteria;
+- artifact kind and purpose;
+- inputs, expected behavior or output, and the assertion/oracle or validation
+  criteria;
+- positive, negative, and edge cases;
+- direct dependencies, downstream dependents, and the rebuild boundary; and
+- relevant permissions, security, and privacy constraints.
+
+Use this order: approved master spec -> approved contract and planned check
+design -> G4 -> actual test/validation check artifact -> independent PE
+adequacy approval -> paired product artifact -> actual T/V execution. All
+contract cases must
+pass with evidence. If a check fails, correct the artifact against the unchanged
+contract and rerun the complete contract. Reopen the contract only when the
+requirement or contract is wrong. A semantic test or validation change requires
+a revised, re-reviewed contract; a purely mechanical correction requires
+tester/PE review and new evidence.
+
+A contract change invalidates the affected transitive downstream test,
+validation, and implementation or product-artifact subgraph. Unrelated work
+remains valid. Preserve superseded IDs and evidence, assign new revision or
+lineage IDs to rebuilt artifacts, and record the discarded and rebuilt
+relationships. The PM may approve a rebuild affecting two or fewer downstream
+work items. More than two downstream work items requires a HITL decision:
+`1. Approve`, `2. Revise`, or `3. Stop/Defer`.
+
 ## Strict Gates
+
+Interview questions must link to the stated problem. Freeze problem,
+measurable outcome, scope, exclusions, risk basis, and acceptance expectations
+as separate pre-solution fields. Require complete candidate-delta,
+finding, and blocker-ledger identities and links; any missing, empty, duplicate,
+dangling/unsafe, relabeled, or no-progress record stops with a minimized reason
+and defined recovery.
 
 Scale ceremony to risk, reversibility, and blast radius. Classify work as `trivial`, `low`, `standard`, or `high/critical`; security/authentication, secrets, personal or customer data, production infrastructure, payments, destructive migration, and public release work are automatically `high/critical`.
 
@@ -121,3 +214,26 @@ The non-negotiable blocking points are:
 | G9 | Explicit push/PR/closeout authorization after durable records are complete. |
 
 No agent may provisionally cross a hard gate. Material approved changes reopen the affected risk assessment, reviews, and gates; they do not inherit approval from the earlier version.
+
+## Convergence and Safe Metadata Controls
+
+G1 is the immutable problem and scope baseline. Require a bidirectional
+G1-to-G2 trace. One initial G2 may authorize one changed, identity-bound,
+in-scope correction; require meaningful measurable progress and stop unchanged,
+cosmetic, no-progress, or relabeled-blocker attempts. Every finding must be
+plain-language, requirement-traced, and paired with a holistic project-level
+solution. Maintain a bounded blocker ledger with stable identity, recurrence,
+disposition, progress, and stop state, without a numeric cap.
+
+Conduct one PE/SecOps reconciliation. For ordinary findings, the PM may select
+the best-supported remedy or escalate; unresolved security/privacy findings
+always go to HITL. Formal G3 requires matching independent PE and SecOps
+acceptance of one candidate identity. G3 Revise sends scope/risk to G1 and
+solution/evidence to G2; G3 never grants G4.
+
+The required order is `G3 -> G4 -> actual checks -> PE-CHECK -> product work`.
+Actual checks before G4 and product work before PE adequacy are prohibited.
+Metadata is valid only for an existing repository-relative, non-symlink path
+contained by the repository. Reject absolute paths, URLs, `..`, control
+characters, missing paths, and containment escapes. Keep evidence minimized and
+link history rather than copying transcripts.
