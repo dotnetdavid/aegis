@@ -59,6 +59,7 @@ Aegis is not a checklist you paste in at the end. It is a way to guide the work 
 | Human approval points | At consequential gates, Aegis stops and asks the human to approve, revise, or defer the work. | The agent never quietly turns a proposal into code, a commit, a deployment, or a release decision. |
 | Independent review and verification | Aegis expects testing for every project and adds independent testing and security review when the risk or public exposure calls for them. | "The agent says it works" is not treated as proof. |
 | Governed evidence and grounding | When an AI capability uses project or external material, Aegis requires a visible contract for what sources are allowed, which are authoritative, how current they must be, how they are cited, and what happens when evidence is weak or unsafe. | A plausible answer based on stale, wrong, unauthorized, or malicious material does not get mistaken for trustworthy context. |
+| Scrutinized public promotion | The private repository can build an allowlisted public candidate, attach its exact tree and diff for review, and open a pull request without merging it. | Public distribution gets a second, repository-enforced review boundary instead of a hidden direct push. |
 
 #### 1. Start with the outcome and the risk
 
@@ -121,11 +122,31 @@ For grounded work, Aegis asks for an inspectable context contract. It identifies
 
 It also keeps the original source separate from derived material such as indexes, embeddings, summaries, and model output. A search result can help find evidence; it does not become the authority just because it is convenient. Aegis also expects both positive tests (did the agent use the right source?) and negative tests (did it reject a wrong, excluded, stale, or malicious one?).
 
-### Install Aegis in Codex
+#### 7. Promote public distribution through a reviewed pull request
+
+The private repository's `Promote Aegis public distribution` workflow is
+manual-only. It exports only paths in `release/public-allowlist.json`, scans
+the candidate, and provides the exact public tree and parent-to-candidate diff
+for human scrutiny. A publish run pushes a short-lived branch in the public
+repository and opens a pull request against `main`; it never pushes `main` or
+merges the pull request. The detailed release-operator procedure remains in
+the private canonical repository.
+
+### Manual public-release setup
+
+Before the first publish run, configure the public repository to require pull
+requests and required reviews for `main`, and disallow direct pushes to that
+branch. Configure the private repository's protected `public-release`
+environment with its reviewers and an expiry-bound fine-grained
+`AEGIS_PUBLIC_RELEASE_TOKEN` secret that has only `Contents: write` and
+`Pull requests: write` access to the public repository. The operator must
+still review the dry-run artifact and the generated public PR before merging.
+
+### Install Aegis from the public repository in Codex
 
 An Aegis installation is a skill folder named `aegis`. Keep the whole folder together: `SKILL.md`, the `agents` metadata folder, and the `references` folder all belong to the skill. Copying only `SKILL.md` leaves important guidance behind.
 
-Start with the released package from the [Aegis repository](https://github.com/dotnetdavid/aegis). The skill itself is in `skill/aegis/`.
+Install from the released package in the public [Aegis repository](https://github.com/dotnetdavid/aegis). The skill itself is in `skill/aegis/`.
 
 #### Choose where Aegis should apply
 
@@ -190,6 +211,12 @@ You can also ask for Aegis by name in ordinary language. Explicitly writing `$ae
 #### A sensible first project
 
 For a first run, choose something real but bounded: a small feature, a focused bug fix, or a planned integration that has a clear owner and a clear success condition. Avoid beginning with a production deployment or a broad rewrite. The goal is to experience the full loop, scope, risk, plan, approval, evidence, and closeout, without turning your first outing into a boss fight.
+
+### Dependencies
+
+This promotion workflow adds no repository runtime or development dependency.
+It uses the GitHub-hosted runner's preinstalled `gh` command to create the
+public pull request.
 
 ### Where to go next
 

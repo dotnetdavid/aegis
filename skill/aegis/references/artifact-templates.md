@@ -84,7 +84,7 @@ later entry that identifies the superseded record and evidence.
 
 - Current phase: [phase]
 - Risk classification: [trivial | low | standard | high/critical]
-- Current gate: [gate ID and status]
+- Current gate: [Canonical Gate Name (Gate ID) and status]
 - Approvals: [approved gates and dates]
 - Blockers: [none or concise list]
 - Material risks: [none or concise list]
@@ -95,7 +95,7 @@ later entry that identifies the superseded record and evidence.
 
 | Gate | Status | Evidence | Decision / rationale |
 | --- | --- | --- | --- |
-| [G#] | [Pending | Approved | Revised | Stopped/Deferred | Not applicable] | [artifact or link] | [HITL decision and date, or N/A rationale] |
+| [Canonical Gate Name (G#)] | [Pending | Approved | Revised | Stopped/Deferred | Not applicable] | [artifact or link] | [HITL decision and date, or N/A rationale] |
 ```
 
 Keep this a current health view. Preserve prior gate evidence in the journal or
@@ -108,7 +108,9 @@ review record rather than deleting it from history.
 
 ## Status
 
-[Approved scope and current gate. State whether implementation is authorized.]
+[Approved scope, requirements, and architecture. Record mutable current-gate
+state and implementation authorization in `status.md` and append-only gate
+receipts.]
 
 ## Goal and Users
 
@@ -135,6 +137,63 @@ review record rather than deleting it from history.
 and invalidated review/approval gates. High/critical material decisions require
 an ADR.]
 ```
+
+### Master-Specification Addendum
+
+Use one repository-root `spec.md` as the sole current product law. Do not
+create enhancement-specific specifications. Add a dated change-log entry to
+that file for every approved material requirement or architecture amendment;
+state the approving gate, affected requirement IDs, and superseded requirement
+text where applicable.
+
+## Per-Run Build-Package Identity
+
+Every governed run gets a new immutable package containing:
+
+```markdown
+## Master-Spec Binding
+
+- Run ID: `[project/run identifier]`
+- Governing spec path: `spec.md`
+- Pre-execution spec revision/date and SHA-256: `[identity]`
+- Covered requirement IDs: `[IDs]`
+- Gate/decision context at package creation: `[fixed context]`
+- Predecessor/successor package: `[path or None]`
+
+No package, backlog, chat request, scope sidecar, or review may override this
+specification. Stop and obtain an approved amendment on conflict.
+```
+
+A trivial governed run may use a concise package, but it must still retain the
+master-spec binding, outcome, verification, and required gate evidence.
+
+The package's creation context is immutable. Keep mutable current gate state
+and implementation authorization in `status.md` and append-only gate receipts.
+
+At G2, record the package and pre-execution spec identities in a separate
+append-only receipt. Recheck them before G3 and immediately before G4. At G5,
+record the final spec digest and review a complete mapping of final spec changes
+to approved requirement IDs or an explicit amendment; do not require final-byte
+equality with the G2 checkpoint. Treat absolute paths, `..`, symlinks, URLs,
+control characters, missing/stale identities, and unknown/duplicate/retired IDs
+as invalid metadata that stops the run.
+
+## Authority Registry and Inventory
+
+```markdown
+# Authority Registry: [Project]
+
+| Record path | Type | Classification | Authority note | Inventory identity |
+| --- | --- | --- | --- | --- |
+| `spec.md` | specification | current | sole product law | `[SHA-256]` |
+| `[path]` | scope/package/review/etc. | decision/execution/historical | non-authoritative evidence | `[SHA-256]` |
+```
+
+Maintain an append-only checksum inventory for all scopes, packages, briefs,
+reviews, verification, ADRs, receipts, manifests, and migration records. State
+an evidence cutoff in every inventory: a missing or altered covered item is a
+hard stop, while records created after the cutoff are pending for the next dated
+successor inventory. Neither case permits silently reconstructing history.
 
 ## build-package.md
 
@@ -169,6 +228,58 @@ an ADR.]
 Every requirement must map to ordered work, an owner, verification, and an exit
 criterion before requesting execution authorization.
 
+## Work-Item Contract
+
+Use one contract for each product-changing work item. Use a test contract for
+executable work and an artifact-appropriate validation contract for
+non-executable work.
+
+```markdown
+# Work-Item Contract: [Work Item ID]
+
+- Work-item ID: [unique ID]
+- Contract ID / revision / lineage: [ID / revision / lineage]
+- Source spec requirement and acceptance criteria: [exact IDs and text]
+- Artifact kind and purpose: [code, configuration, infrastructure, document,
+  template, skill guidance, or other / purpose]
+- Inputs and constraints: [bounded inputs, permissions, security/privacy limits]
+- Expected behavior or output: [observable result]
+- Assertion/oracle or validation criteria: [how correctness is determined]
+- Positive cases: [expected valid cases]
+- Negative cases: [rejected or unsafe cases]
+- Edge cases: [boundary and failure cases]
+- Direct dependencies: [work-item or contract IDs]
+- Downstream dependents: [work-item or contract IDs]
+- Rebuild boundary: [artifacts invalidated if this contract changes]
+- Created by tester: [role, date, evidence]
+- PE adequacy review: [reviewer, date, outcome, evidence]
+- Gate evidence: [gate IDs and receipt paths]
+- Test/validation artifact ID and path: [ID and path]
+- Implementation/product artifact ID and path: [ID and path]
+- Verification results: [complete results and evidence path]
+- PII/data note: [scope and disposition; never include suspected values]
+```
+
+### Contract Change / Rebuild Record
+
+```markdown
+# Contract Change / Rebuild: [Work Item ID]
+
+- Superseded contract ID / revision / lineage: [identity]
+- Reason for change: [requirement correction or approved contract change]
+- Affected downstream subgraph: [contract, test/validation, and product IDs]
+- Unaffected work confirmed: [work items and evidence]
+- Cascade count: [number of downstream work items]
+- Approval: [PM approval for <=2, or HITL decision and receipt for >2]
+- Discarded artifacts and evidence retained: [IDs and paths]
+- Rebuilt artifact IDs / revisions / lineage: [IDs and paths]
+- Verification rerun and result: [complete contract evidence]
+```
+
+Do not place secrets, credentials, PII values, or sensitive source snippets in
+contracts or their evidence. Preserve superseded records; a rebuild creates a
+new revision or lineage identity rather than rewriting prior evidence.
+
 ## Review Evidence
 
 ```markdown
@@ -190,13 +301,40 @@ criterion before requesting execution authorization.
 | Monitoring | [assessment or `N/A - not long-running`] | [action or N/A] |
 | Documentation | [assessment] | [action or N/A] |
 
+## SecOps PII Check
+
+Required for every SecOps review and available on HITL request within the
+authorized scope. Do not treat this procedure as a scanner or a certification
+that no PII exists.
+
+- Authorized scope: [affected codebase and artifacts]
+- Methods used: [review methods]
+- Material limitations: [limits, or `None`]
+- Outcome: [findings recorded | scan incomplete | clean]
+
+When suspected findings exist, complete evidence gathering for the authorized
+scope before pausing progression. Record every finding below. Do not record a
+suspected value or source snippet. Only the HITL may set a disposition or
+approve an exemption.
+
+| Finding ID | Severity | Repository-relative file | Line | State | HITL disposition |
+| --- | --- | --- | --- | --- | --- |
+| [PII-001] | P0 | [path] | [line] | [unresolved or disposed] | [pending, modified, removal directed, or documented exemption] |
+
+Any suspected finding pauses progression after the scan completes. Keep the
+pause until every finding has a HITL disposition. A cleared privacy pause does
+not approve or advance an Aegis gate. For `scan incomplete`, record the
+affected scope and limitation and keep the run paused until the scan completes
+or the HITL changes the authorized scope through normal change control. For a
+`clean` result, retain the scope, methods, and material limitations above.
+
 ## Findings
 
 | ID | Severity | Evidence | Owner | Disposition |
 | --- | --- | --- | --- | --- |
 | [R-01] | [critical/high/medium/low] | [fact] | [role] | [fix, accept risk, or escalate] |
 
-## Gate Decision
+## [Canonical Gate Name (G#)] Decision
 
 1. Approve
 2. Revise
@@ -224,6 +362,108 @@ Recorded outcome: [HITL decision, date, conditions, and affected next gate]
 - Re-run required: [tests or `None`]
 - Limits of this verification: [what was not tested and why]
 ```
+
+## Convergence Addenda
+
+Use these compact fields with the existing records; link prior evidence instead
+of copying transcripts.
+
+### G1/G2 Trace
+
+- G1 identity/problem/outcomes/scope/risk: [immutable identity]
+- Forward links: [each G1 assertion -> G2 requirement -> acceptance check]
+- Reverse links: [each G2 requirement -> G1 assertion]
+- Candidate identity / predecessor / changed scope: [identities and bounded change]
+- PE acceptance / SecOps acceptance: [matching candidate identity and evidence]
+
+### Finding and Blocker Ledger
+
+| ID | Plain-language finding | Requirement trace | Holistic project remedy | Recurrence | Disposition | Progress evidence | State |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [F/B-01] | [concise fact] | [G1/G2/AC] | [project-level solution] | [count/history link] | [fix/ordinary choice/escalate/HITL] | [measurable movement] | [open/closed/stopped] |
+
+No-progress, cosmetic, unchanged, or relabeled-blocker entries stop review;
+there is no fixed iteration cap. Unresolved security/privacy entries require
+HITL disposition.
+
+### One Reconciliation
+
+- PE finding set: [linked evidence]
+- SecOps finding set: [linked evidence]
+- Reconciliation: [one attempt and result]
+- PM ordinary remedy choice or HITL escalation: [decision and reason]
+- Safety/privacy escalation: [HITL decision or pending]
+
+### Concise G3 Packet and Ordered Events
+
+- Candidate identity and both matching acceptances: [links]
+- Scope/risk revision route: [G1 link or `None`]
+- Solution/evidence revision route: [G2 link or `None`]
+- Event trace: `G3 approval -> G4 approval -> actual checks -> PE-CHECK
+  adequacy -> product work`
+- Metadata: [existing repository-relative non-symlink contained path; reject
+  absolute, URL, `..`, control-character, missing, or escaping paths]
+
+## Convergence Record Templates
+
+### G1 and Problem-Derived Questions
+
+- `g1_id`: [nonempty immutable ID]
+- `g1_digest`: [digest]
+- `problem`: [frozen problem]
+- `measurable_outcome`: [frozen measure]
+- `scope`: [frozen scope]
+- `exclusions`: [frozen exclusions]
+- `risk_basis`: [frozen basis]
+- `acceptance_expectations`: [frozen expectations]
+- `question_id`: [unique nonempty ID]
+- `question_text`: [question]
+- `problem_basis_id`: [resolving G1 field; never solution-only]
+- `derivation_reason`: [why that problem element requires the question]
+
+### C03 Candidate Delta
+
+Required exactly once and nonempty: `candidate_id`, `candidate_digest`,
+`predecessor_id`, `predecessor_digest`, `delta_id`, `artifact_path`,
+`before_summary`, `after_summary`, `change_kind`, `driving_finding_id`,
+`affected_g1_ids`, `affected_conv_ids`, `affected_ac_ids`,
+`affected_check_ids`, `evidence_pointers`, `scope_classification`,
+`lineage_reason`. IDs must resolve; paths and pointers must be existing,
+repository-relative, non-symlink, and contained. Missing/empty/duplicate fields
+fail as `C03-MISSING:<field>`, `C03-EMPTY:<field>`, or
+`C03-DUPLICATE:<field>`; also fail `C03-UNMAPPED-DELTA`,
+`C03-UNCHANGED-CANDIDATE`, or `C03-UNSAFE-PATH` and stop.
+
+### C05 Finding
+
+Required exactly once and nonempty: `finding_id`, `human_readable_finding`,
+`evidence_pointers`, `affected_g1_ids`, `affected_conv_ids`, `affected_ac_ids`,
+`affected_check_ids`, `severity`, `reviewer_set`, `owner`,
+`direct_work_impact`, `dependent_work_impact`, `gate_impact`,
+`security_privacy_impact`, `verification_impact`, `documentation_impact`,
+`operations_monitoring_applicability`, `downstream_effects`,
+`recovery_rollback`, `holistic_remedy`, `disposition`,
+`stop_escalation_reason`. References resolve and pointers are safe. Missing,
+empty, or duplicate fields fail as `C05-MISSING:<field>`,
+`C05-EMPTY:<field>`, or `C05-DUPLICATE:<field>`; also fail
+`C05-LOCAL-ONLY-REMEDY`, `C05-DANGLING-ID`, or
+`C05-UNSAFE-EVIDENCE-POINTER` and stop.
+
+### C07 Blocker Ledger
+
+Required exactly once and nonempty: `blocker_id`, `source_finding_ids`,
+`underlying_identity`, `recurrence_count`, `affected_requirement_ids`,
+`affected_check_ids`, `severity`, `reviewer_set`, `owner`, `holistic_remedy`,
+`disposition`, `evidence_pointers`, `progress_state`, `next_action`,
+`direct_work_impact`, `dependent_work_impact`, `gate_impact`,
+`stop_escalation_reason`. References resolve and next action is concrete/in
+scope. Missing, empty, or duplicate fields fail as `C07-MISSING:<field>`,
+`C07-EMPTY:<field>`, or `C07-DUPLICATE:<field>`; also fail
+`C07-RELABELLED-BLOCKER`, `C07-NO-PROGRESS-PATH`, or
+`C07-DANGLING-FINDING` and stop.
+
+All failures are fail-closed with minimized evidence and defined recovery;
+never copy transcripts, secrets, or sensitive values.
 
 ## Release Record
 
