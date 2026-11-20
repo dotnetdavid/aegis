@@ -161,8 +161,17 @@ work, prepare the contract and check design before applicable G4; the developmen
 approver must authorize G4 before actual checks or product artifacts. After G4,
 the tester creates actual checks and independent PE approves adequacy.
 
-For executable work on either path, run the approved checks and observe expected
-RED before paired product work, then run unchanged checks to GREEN after the edit.
+For executable items, select and record the expected pre-edit result in the
+approved contract. New behavior and bug fixes require observable RED for the
+intended reason before product work, then GREEN after the edit with the unchanged
+approved checks. A behavior-preserving refactor may use GREEN -> GREEN only when
+the approved contract documents the behavior and acceptance criteria that must
+remain unchanged. The approved checks must all pass before product work and
+pass unchanged after the edit. A failing baseline blocks this path; do not
+manufacture RED, waive a failure, or change the checks to obtain GREEN. Separate
+any new behavior or fix into its own RED -> GREEN item with its own evidence.
+Classifying an item does not change applicable authorization, tester
+independence, adequacy review, scope review, or acceptance requirements.
 For non-executable work, use and record justified artifact-appropriate validation.
 Retain results and inspect evidence; authorization does not waive validation.
 
@@ -179,7 +188,7 @@ Each contract records, at minimum:
 
 Use the applicable path above: standard/high retains G3, G4 and independent
 adequacy; eligible trivial/low uses scope/acceptance authorization and owner/PM adequacy.
-Both execute RED before paired executable product work and GREEN after.
+Both require the applicable pre-edit result and unchanged GREEN after executable product work.
 All
 contract cases must
 pass with evidence. If a check fails, correct the artifact against the unchanged
@@ -261,7 +270,7 @@ acceptance of one candidate identity. G3 Revise sends scope/risk to G1 and
 solution/evidence to G2; G3 never grants G4.
 
 For standard/high work, the default order is `G3 -> G4 -> actual checks ->
-independent PE-CHECK -> RED -> product work -> GREEN`. The Safe Combined Check/RED
+independent PE-CHECK -> required pre-edit result -> product work -> unchanged GREEN`. The Safe Combined Check/RED
 Handoff in SKILL.md is the bounded fixture-only alternative; it retains independent
 actual-check adequacy and explicit source authorization before product. Actual checks before G4
 are prohibited on that path. Eligible trivial/low follows scope authorization and owner/PM

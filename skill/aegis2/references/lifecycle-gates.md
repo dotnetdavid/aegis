@@ -184,8 +184,17 @@ work, prepare the contract and check design before applicable G4; the developmen
 approver must authorize G4 before actual checks or product artifacts. After G4,
 the tester creates actual checks and independent PE approves adequacy.
 
-For executable work on either path, run the approved checks and observe expected
-RED before paired product work, then run unchanged checks to GREEN after the edit.
+For executable items, select and record the expected pre-edit result in the
+approved contract. New behavior and bug fixes require observable RED for the
+intended reason before product work, then GREEN after the edit with the unchanged
+approved checks. A behavior-preserving refactor may use GREEN -> GREEN only when
+the approved contract documents the behavior and acceptance criteria that must
+remain unchanged. The approved checks must all pass before product work and
+pass unchanged after the edit. A failing baseline blocks this path; do not
+manufacture RED, waive a failure, or change the checks to obtain GREEN. Separate
+any new behavior or fix into its own RED -> GREEN item with its own evidence.
+Classifying an item does not change applicable authorization, tester
+independence, adequacy review, scope review, or acceptance requirements.
 For non-executable work, use and record justified artifact-appropriate validation.
 Retain results and inspect evidence; authorization does not waive validation.
 
@@ -322,11 +331,11 @@ unresolved security/privacy always requires HITL. G3 Revise routes scope/risk
 to G1 and solution/evidence to G2; G3 never grants G4.
 
 For standard/high, the default dependency trace is `G3 -> G4 -> actual checks ->
-independent PE-CHECK -> RED -> product work -> GREEN`. The Safe Combined Check/RED
+independent PE-CHECK -> required pre-edit result -> product work -> unchanged GREEN`. The Safe Combined Check/RED
 Handoff in SKILL.md permits the approved fixture-only variant, with independent
 actual-check adequacy and explicit source authorization still before product. Reject actual checks before
 applicable G4, product before adequacy, and G3-as-G4 wording. Eligible trivial/low follows
-the scope-authorized owner/PM path above, with RED before executable product work. Metadata must be an existing,
+the scope-authorized owner/PM path above, including the required pre-edit result for its work type. Metadata must be an existing,
 repository-relative, non-symlink path contained within the repository; reject
 absolute paths, URLs, `..`, control characters, missing paths, and containment
 escapes. Link prior records instead of dumping history.

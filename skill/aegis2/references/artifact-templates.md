@@ -273,7 +273,7 @@ to the PM/HITL.
 - Created by tester or owner/PM for eligible trivial/low: [role, date, evidence]
 - Adequacy review: [independent PE for standard/high; owner/PM for eligible trivial/low; date, outcome, evidence]
 - Authorization evidence: [applicable gates or eligible trivial/low scope approval with G4 N/A; decision source and receipts]
-- Test-first evidence: [expected RED before executable product, GREEN after; justified non-executable validation otherwise]
+- Test-first evidence: [new behavior/fix: expected RED and unchanged GREEN; behavior-preserving refactor: preserved contract, expected GREEN before and unchanged GREEN after; justified non-executable validation otherwise]
 - Test/validation artifact ID and path: [ID and path]
 - Implementation/product artifact ID and path: [ID and path]
 - Verification results: [complete results and evidence path]
@@ -290,7 +290,7 @@ The PM independently inspects the whole actual changed content against the assig
 - PM actual-diff scope verdict: [independent accept/reject decision based on the whole actual diff; reject unapproved extra changes even when the assigned check passes, and reject omitted or substituted assigned work]
 - Actual changed-content/diff reference: [baseline, candidate, changed paths and hunks]
 - GREEN evidence: [unchanged approved-check results and applicable regression evidence under existing policy]
-- Observed RED evidence: [pre-edit command, exit and failure reference as required by existing policy]
+- Pre-edit evidence: [approved check identity, command, exit and actual result; for RED include the intended failure cause; for GREEN include the preserved behavior/acceptance contract and the passing baseline]
 - Check identity: [approved check path, ID, revision and digest]
 - Assigned requirement and spec identity: [ID and governing spec digest]
 ```
@@ -430,12 +430,12 @@ HITL disposition.
 - Scope/risk revision route: [G1 link or `None`]
 - Solution/evidence revision route: [G2 link or `None`]
 - Standard/high default event trace: `G3 -> G4 -> actual checks -> independent PE-CHECK
-  -> RED -> product work -> GREEN`
+  -> required pre-edit result -> product work -> unchanged GREEN`
 - Safe fixture-only combined alternative: [plan/G4 receipt, frozen checks/hashes
   and RED cause, independent actual-check adequacy, explicit source authorization,
   product then unchanged GREEN; apply SKILL.md eligibility, not a general bypass]
 - Eligible trivial/low alternative (non-public-facing, no security/privacy-sensitive trigger): [scope/acceptance authorization, G4 N/A rationale,
-  owner/PM adequacy, RED before executable product, GREEN and evidence]
+  owner/PM adequacy, required pre-edit result by work type, unchanged GREEN and evidence]
 - Metadata: [existing repository-relative non-symlink contained path; reject
   absolute, URL, `..`, control-character, missing, or escaping paths]
 

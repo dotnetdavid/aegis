@@ -217,14 +217,23 @@ work, prepare the contract and check design before applicable G4; the developmen
 approver must authorize G4 before actual checks or product artifacts. After G4,
 the tester creates actual checks and independent PE approves adequacy.
 
-For executable work on either path, run the approved checks and observe expected
-RED before paired product work, then run unchanged checks to GREEN after the edit.
+For executable items, select and record the expected pre-edit result in the
+approved contract. New behavior and bug fixes require observable RED for the
+intended reason before product work, then GREEN after the edit with the unchanged
+approved checks. A behavior-preserving refactor may use GREEN -> GREEN only when
+the approved contract documents the behavior and acceptance criteria that must
+remain unchanged. The approved checks must all pass before product work and
+pass unchanged after the edit. A failing baseline blocks this path; do not
+manufacture RED, waive a failure, or change the checks to obtain GREEN. Separate
+any new behavior or fix into its own RED -> GREEN item with its own evidence.
+Classifying an item does not change applicable authorization, tester
+independence, adequacy review, scope review, or acceptance requirements.
 For non-executable work, use and record justified artifact-appropriate validation.
 Retain results and inspect evidence; authorization does not waive validation.
 
 ### Safe Combined Check/RED Handoff
 
-This applies only to standard/high work with applicable G4; the low path is unchanged.
+This RED-only option applies to standard/high work with applicable G4. It does not apply to a GREEN -> GREEN baseline; the low path is unchanged.
 The approved plan must establish local isolated fixture-only effects; a fixture label
 alone is insufficient. Uncertain effects require independent review before execution.
 
@@ -324,7 +333,7 @@ HITL. Formal G3 requires PE and SecOps acceptance of the same identity. G3
 Revise routes scope/risk to G1 and solution/evidence to G2; G3 never grants G4.
 
 For standard/high work, the default staged order is `G3 -> G4 -> actual checks ->
-independent PE adequacy -> RED -> product work -> GREEN`. The Safe Combined
+independent PE adequacy -> required pre-edit result -> product work -> unchanged GREEN`. The Safe Combined
 Check/RED Handoff above permits checks+RED before PE only within its stated bounds.
 Eligible trivial/low work follows
 the scope-authorized owner/PM validation path above, not a G4 gate. Reject product
