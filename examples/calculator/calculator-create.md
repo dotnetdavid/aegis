@@ -3,7 +3,7 @@
 Paste this into a fresh Codex session started in your chosen empty project directory. Use the same prompt in PowerShell and WSL, each in a separate project folder. This prompt does not choose a machine-specific output path.
 
 ```text
-Use $aegis2, not the legacy $aegis skill. Before writing files, report the loaded skill name/source, current working directory and writable workspace. If aegis2 is unavailable, stop and report that; do not silently substitute another version. Keep all project artifacts and scratch output inside the current project. Do not inspect credentials or unrelated projects.
+Use $aegis. Before writing files, report the loaded skill name and metadata version (expected: aegis, 2.1.0), its actual source, current working directory and writable workspace. If that exact name, version and intended source cannot be verified, stop and report why; do not silently substitute another version. Keep all project artifacts and scratch output inside the current project. Do not inspect credentials or unrelated projects.
 
 Build a polished, fully functional, single-page HTML/JavaScript calculator. This is a local offline baseline test, not a public service.
 

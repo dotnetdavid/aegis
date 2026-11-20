@@ -1,9 +1,11 @@
 ---
-name: aegis2
-description: Govern an AI-assisted software-development lifecycle for a skill, MCP, application, service, or other development project. Use immediately when the user explicitly invokes Aegis or `$aegis2`; when a request clearly needs lifecycle governance but does not name Aegis, ask permission before applying it. Use for discovery, specifications, dependency-aware build packages, risk-scaled gates, reviews, testing, grounding governance, and release/closeout decisions.
+name: aegis
+description: Govern an AI-assisted software-development lifecycle for a skill, MCP, application, service, or other development project. Use immediately when the user explicitly invokes Aegis or `$aegis`; when a request clearly needs lifecycle governance but does not name Aegis, ask permission before applying it. Use for discovery, specifications, dependency-aware build packages, risk-scaled gates, reviews, testing, grounding governance, and release/closeout decisions.
+metadata:
+  version: "2.1.0"
 ---
 
-# Aegis 2: Leaner and Meaner
+# Aegis v2.1.0: Leaner and Meaner
 
 Use Aegis as a Codex-specific, technology-agnostic operating method for
 AI-assisted development. It creates inspectable project evidence and keeps a
@@ -12,8 +14,12 @@ install, deploy, commit, or automatically enforce a workflow.
 
 ## Activation
 
-- Apply Aegis immediately when the user explicitly says `Aegis`, `Aegis 2`, `aegis2`, `$aegis2`, or
-  clearly asks to use this lifecycle.
+- Apply Aegis immediately when the user explicitly says `Aegis` or `$aegis`,
+  or clearly asks to use this lifecycle. `$aegis` is the stable Codex invocation.
+  If an exact version or source is requested, confirm the actual loaded skill
+  name, metadata version, and source before writes. If they are unavailable
+  or do not match, report the mismatch and stop rather than substitute a
+  different version.
 - When the work appears to need lifecycle governance but Aegis was not named,
   ask one focused question: whether to use Aegis. Do not silently impose it.
 - Once active, ask only one focused question at a time. Give a recommendation
@@ -22,17 +28,16 @@ install, deploy, commit, or automatically enforce a workflow.
 
 ## Establish Project Truth
 
-Before making a material decision, reconstruct the project from local evidence
-instead of trusting chat history. Use this authority order:
+Confirm the target project location and reconstruct it from local evidence,
+not chat history. Current code, schemas, contracts, tests, and observed
+results establish what exists. The approved master spec establishes what is
+required; a build package bounds one authorized run, not a second set of
+requirements. Journals and verified conversations explain history, but do not
+override requirements or grant approval.
 
-1. Current code, schemas, contracts, tests, and generated evidence.
-2. Approved `spec.md` and `build-package.md`.
-3. `journal.md`.
-4. Verified conversation context.
-
-Confirm the target project location. Preserve existing artifacts and
-instructions. If evidence, requirements, or instructions conflict, stop and
-obtain HITL resolution; do not choose a precedence silently. Security red lines
+Preserve existing artifacts and instructions. If evidence, requirements, or
+instructions conflict, record the difference and stop the affected decision
+for HITL resolution; do not choose a precedence silently. Security red lines
 are not negotiable.
 
 ## One Master Specification Per Governed Project
@@ -45,14 +50,19 @@ enhancement-specific, sidecar, duplicate, or replacement specification.
 For every governed run, including a trivial one:
 
 1. Read and validate the existing `spec.md` before discovery or planning.
+   For a genuinely new project without a spec, follow the lifecycle first-run
+   rule: verify the root and absence read-only, then obtain applicable
+   authority before creating the one root spec.
 2. If the requested work changes product law, obtain the required approved
    amendment, then amend that same `spec.md` through the applicable gate.
 3. Create a new immutable, run-specific build package as execution evidence.
    It must cite the spec path, revision/date, digest or equivalent immutable
    identity, covered requirement IDs, fixed creation and decision context, and
-   any predecessor/successor. Record mutable current gate state in `status.md`
-   and append-only receipts, not in the package. A trivial run may use a
-   concise package, but it cannot omit the binding.
+   any predecessor/successor. For standard/high, keep current gate state in
+   `status.md` and append-only gate receipts, not in the package. An eligible
+   trivial/low run uses one compact brief as the package and one existing
+   linked ledger for state and receipts; do not create a separate `status.md`
+   solely for that path or delete any existing status or history.
 4. Reject or escalate a missing or stale spec identity; unknown, duplicate, or
    retired requirement IDs; or a relative-path escape, absolute path, URL,
    symlink, control character, or other unsafe package metadata value.
@@ -63,8 +73,12 @@ conflict and route it to the HITL for an approved amendment. Packages, receipts,
 reviews, and inventories preserve decision/execution history; they are never a
 second source of product law.
 
-At G2, record the pre-execution spec and package identities in an append-only
-receipt. Recheck both before applicable G3 and immediately before authorized source edits. After
+Where G2 applies, record pre-execution spec and package identities in an
+append-only receipt at G2 and recheck before applicable G3. On the eligible
+trivial/low path, no separate G2 is required unless the matrix triggers it.
+Before edits, record exact spec and brief identities, scope authority and
+approved acceptance criteria in a dated receipt in the existing linked ledger.
+On either path, recheck both identities and authority immediately before edits. After
 execution authorization, accept an authorized spec amendment by requirement-mapped review and a
 separately recorded final digest; do not require the final spec to be byte-equal
 to its pre-execution checkpoint. Any pre-execution identity difference, unmapped final
@@ -96,15 +110,20 @@ conductor. The PM owns requirements coverage, lifecycle artifacts, phase entry
 and exit criteria, risk classification, and evidence review.
 
 The PM is non-implementing: it plans, delegates, verifies, and maintains
-`README.md`, `journal.md`, `status.md`, `spec.md`, and `build-package.md`.
+the master spec, existing records, and risk-appropriate run records. Keep the
+standard/high `README.md`, `journal.md`, `status.md`, and `build-package.md`;
+use the compact brief and linked ledger for an eligible trivial/low run.
 Humans or bounded delivery agents make product changes. Route every subagent
 question through the PM, and only the PM asks the HITL for clarification or
 authorization.
 
-Use the roles needed by the bounded work: coder, tester, SecOps, and
-documentation. For trivial work, use zero or one subagent as needed; larger
-work normally uses three or more bounded agents. Choose delegation by cost,
-then accuracy, then speed. Independently review each agent's output.
+Use only the roles needed for the bounded work. On the eligible lightweight
+path, name either a human implementer (no delivery subagent) or one bounded
+delivery agent. If neither is available, hold implementation; the PM does not
+take the product delivery role. The PM inspects the whole actual diff and
+reviews delegated output. Owner/PM adequacy and validation are allowed on the
+eligible lightweight path, but are not independent verification. Staff
+independent roles where required by the risk-and-control matrix.
 
 Use an approved project model mapping drawn from models actually available in
 the host. Choose sufficient reasoning capability for substantive engineering and
@@ -115,28 +134,18 @@ route when exposed; otherwise report unknown, never infer it from the request.
 
 ## Risk, Artifacts, and Gates
 
-The trivial/low execution path is eligible only for non-public-facing work
-without security/privacy-sensitive triggers. Public-facing work uses at least
-standard G4 and independent review/testing controls even if otherwise low
-consequence; security/privacy-sensitive work follows its applicable standard/high
-controls. All references to the trivial/low shortcut mean this eligible path.
+Use the sole authoritative [risk-and-control matrix](references/lifecycle-gates.md#2-classify-risk-before-selecting-gates).
+It determines eligibility and minimum controls based on actual effects. Use
+its first-run, N/A, and recovery rules; absence of required evidence,
+reference, reviewer, or authority is a hold, not an exception.
 
-Classify work before choosing ceremony: `trivial`, `low`, `standard`, or
-`high/critical`. Escalate to `high/critical` for materially sensitive-data handling or exposure,
-security/authentication, secrets or credentials, production infrastructure,
-payments, destructive data/schema migrations, or public release. Assess actual sensitivity, handling changes, exposure and consequence.
-The mere presence of ordinary authorized internal, public or synthetic data alone
-is not a leak or automatic high/critical classification. Internal use is never an
-exemption for genuine security or sensitive-data risks. Public availability does
-not grant permission for new sharing; platform transmission/confirmation rules remain.
-
-Maintain durable project memory appropriate to the risk. Non-trivial work has
-a human-voice `README.md`, `journal.md`, `status.md`, `spec.md`, and
-`build-package.md`. The README begins with a two- or three-sentence executive
-value statement, then explains who, what, when, where, and why. Record
-decisions, approvals, evidence, risks, and open loops in the journal; keep
-project health, gate state, blockers, risks, verification, and the next action
-in status.
+On the eligible lightweight path, keep one compact run brief as the
+spec-bound run package and link its observed results and decisions in the
+existing ledger. The [brief and linked receipt template](references/artifact-templates.md#lightweight-brief-and-linked-receipt)
+provides the minimum; no duplicate document is needed. Preserve all existing
+records. For other work maintain a human-voice README, journal, status,
+master spec, and run package. The README begins with a two- or three-sentence
+executive value statement, then explains who, what, when, where, and why.
 
 Decompose an approved specification into dependency-aware work items before
 requesting execution. Each item needs a role, default model, prerequisites,
@@ -155,17 +164,17 @@ When presenting or recording a new gate, use `Canonical Gate Name (Gate ID)`.
 Read `references/lifecycle-gates.md` for the canonical G1-G9 names; preserve a
 complete approved scoped identifier such as `G1-ENH-002`.
 
-Record the decision and supporting evidence. A non-applicable gate remains
-visible in `status.md` with its rationale. A material approved change pauses
-work, updates affected artifacts, reclassifies risk when needed, and reopens
-the invalidated reviews and gates. High/critical material decisions require an
-ADR.
+Record the decision and supporting evidence. Record a genuinely non-applicable
+gate and its rationale in status or the eligible lightweight ledger. A material
+approved change pauses work, updates affected artifacts, reclassifies risk when
+needed, and reopens the invalidated reviews and gates. Use the matrix for
+risk-specific approvals and ADRs. Never deploy or promote without explicit
+owner/HITL G7 approval.
 
-For standard/high work, obtain explicit G4 from the development approver before
-actual checks or product changes. Eligible trivial/low work uses explicit scope/acceptance
-authorization and records G4 as not applicable. Never deploy or promote without
-explicit owner/HITL G7 approval. The full nine-gate model applies to high/critical
-work; lower-risk applicability follows the lifecycle reference.
+Use [activity-scoped gate authority](references/lifecycle-gates.md#map-gates-to-activities)
+for candidate push/PR, CI, merge, promotion, and closeout. Candidate approval
+does not authorize merge, triggered CI or deployment. If required evidence
+can only come from an unauthorized workflow, record `not run / hold`.
 
 Before any runtime promotion, create a deterministic source-tree manifest (or
 equivalent checksum comparison) and record the source identity, manifest
@@ -204,7 +213,12 @@ Use exact spec identity and requirement/acceptance IDs rather than duplicate
 scope prose in contracts and packages; keep the oracle inspectable and reject
 missing, stale or dangling references. A separately identifiable frozen contract
 may be a section of the immutable package; the spec remains sole requirements
-authority. See the templates for compact evidence records.
+authority. Freeze plan identity, scope, oracle, and expected check outcomes.
+An expected result or required approval in a plan is not evidence that it
+occurred. Record actual approvals, artifact identities, review, and results
+after each event in dated append-only receipts linked to the frozen identities.
+Correct a receipt by appending a dated superseding receipt, never by rewriting
+the plan or evidence. See the [contract and receipt templates](references/artifact-templates.md#work-item-contract).
 
 Apply contract-first development to every product-changing work item, including
 code, configuration, infrastructure, documentation, templates, and skill
@@ -254,10 +268,11 @@ When a check fails, correct the artifact against the unchanged contract and
 rerun the complete contract. A semantic test or validation change requires a
 revised contract; a purely mechanical correction requires tester/PE review and
 new evidence. A contract change invalidates the affected transitive downstream
-test, validation, and product-artifact subgraph. The PM may approve rebuilds
-affecting two or fewer downstream work items; more than two requires HITL
-resolution. Preserve prior IDs and evidence, and assign new revision or lineage
-IDs to rebuilt artifacts. See `references/project-policy.md`,
+test, validation, and product-artifact subgraph. The PM may approve a rebuild
+affecting at most two downstream work items only under verified, explicit
+delegation covering that decision. Otherwise hold affected work and obtain
+a HITL decision. Reopen affected gates before resuming; preserve prior IDs and
+evidence and assign rebuilt artifacts new revision or lineage IDs. See `references/project-policy.md`,
 `references/lifecycle-gates.md`, and `references/artifact-templates.md` for the
 required fields and records.
 
@@ -314,6 +329,17 @@ stop with a minimized reason and defined recovery.
 Read the focused reference needed for the current phase; do not duplicate its
 detailed content here.
 
+## Run Budget and Safe Stops
+
+Before actual checks, product work or dispatch, record authorized per-item
+and cumulative attempt/retry limits and the elapsed-time limit and start.
+Apply [shared accounting and stop rules](references/project-policy.md#run-budget)
+to all routes, including applicable observable usage/spend and concurrent
+reservations. Hold new work when limits are reached or capacity cannot be
+verified; safely stop affected active work through authorized controls.
+Only an explicit bounded continuation can extend the existing record; no
+reset, approval widening, or waiver of stricter project review limits.
+
 ## G2/G3 Convergence Routing
 
 G1 is an immutable problem, outcome, scope, and risk baseline. Trace every G1
@@ -326,7 +352,11 @@ cosmetic change, no-progress result, or relabeled blocker stops the run.
 
 Each review finding must be plain-language, requirement-traced, and include a
 holistic project-level remedy. Maintain a bounded blocker ledger with stable
-identity, recurrence, disposition, progress, and stop state; no numeric cap.
+identity, recurrence, disposition, progress, and stop state.
+Preserve the applicable project review limit. Where it requires one initial
+review and one correction/verification pass (such as CONV1-06), obtain an
+explicit owner/HITL decision before a third review cycle. A run budget or PM
+delegation does not waive that decision.
 After one PE/SecOps reconciliation, the PM may choose an ordinary
 best-supported remedy or escalate. Unresolved security/privacy always goes to
 HITL. Formal G3 requires PE and SecOps acceptance of the same identity. G3

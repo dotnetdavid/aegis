@@ -47,15 +47,16 @@ Do not silently choose a precedence rule, infer that newer prose wins, or let a 
 ## Master-Specification Authority
 
 The project-root `spec.md` is the one current product requirements and
-architecture authority for an Aegis-governed project. The AI SDLC Policy,
-`AGENTS.md`, backlog, chat, scope record, build package, review, receipt, and
-other historical evidence cannot override it. New projects create this file
-once; enhancements and remediation amend the existing file through approved
-change control and never create a second specification.
+architecture authority. Current code, schemas, tests and observed results
+establish existing behavior, not authority to change what is required. The AI
+SDLC Policy, `AGENTS.md`, backlog, chat, scope record, build package, review,
+receipt and other history cannot override approved product requirements. Apply
+the lifecycle bootstrap rule for the first and only master spec; never create
+a replacement or parallel specification.
 
 Every governed run validates the current master spec before planning and writes
 a new immutable package bound to its spec identity and covered requirement IDs;
-a trivial governed run may use a concise package but cannot omit that binding.
+the one compact brief serves as the package on the eligible trivial/low path.
 If a request lacks a spec, carries unsafe metadata, names missing/stale/unknown/
 duplicate/retired IDs, attempts sidecar authority, or changes final spec text
 without an approved mapping, stop and route one focused resolution question to
@@ -73,7 +74,9 @@ production promotion and platform confirmations cannot be inferred away.
 
 The initiating agent is the non-implementing product manager (PM) and acts as the Principal Engineer responsible for product and project management. The PM:
 
-- owns and maintains `README.md`, `journal.md`, `status.md`, `spec.md`, and `build-package.md`;
+- owns the master spec, preserves existing records, and maintains standard/high
+  `README.md`, `journal.md`, `status.md`, and `build-package.md`, or the compact
+  brief and one existing linked ledger for eligible trivial/low;
 - reconstructs context from project artifacts before chat history and records decisions, approvals, evidence, risks, and open loops durably;
 - decomposes approved requirements into bounded, dependency-aware work items with an owner role, model, prerequisites, deliverable, verification, and entry and exit criteria;
 - supervises delivery, checks requirements and phase criteria, and independently reviews bounded subagent output; and
@@ -91,7 +94,53 @@ Use roles according to the work, not as decorative titles:
 | SecOps | Proportional security review, threat and permission analysis, and security evidence. |
 | Documentation | Product, operational, and reference documentation. The PM retains lifecycle-artifact ownership. |
 
-For trivial or small work, use zero or one subagent when that is enough. For a larger project, staff three or more bounded agents as needed; multiple agents may share a role. The PM chooses multimodal delegation in this order: cost, accuracy, then speed.
+For eligible lightweight delivery, explicitly name the human implementer
+(no delivery subagent) or one bounded delivery agent in the run brief. If
+neither is available, hold implementation. The PM remains non-implementing
+and reviews the full actual diff. Owner/PM validation on this path is not
+independent verification.
+
+Staff other roles as required by risk and evidence. Choose bounded delegation by cost, accuracy, then speed.
+
+## Run Budget
+
+Before running any actual check, starting product work or dispatching it
+(including delegated checks/reviews), verify the authorized run budget.
+Record the run identity, observed elapsed start and deadline or limit,
+per-item and run-wide attempt/retry limits, and any applicable usage/spend
+and concurrency ceilings. Name the authoritative counter/clock and
+observable usage source, units and measurement frequency; record applicable
+paid usage only with explicit authority. An owner-approved profile may supply
+bounds within its scope. A missing bound or untrackable applicable capacity
+is a hold, not permission to use an uncapped default.
+
+The PM owns one shared budget ledger across agents, sessions, roles and
+routes. Count an initial attempt when it starts and every retry as another
+attempt against both its item and the run totals. Repeating failed or blocked
+work, rerunning an attempted check, reviewing a corrected candidate, or having
+a replacement agent repeat work counts even across reboot/session or identity
+change. A distinct check step already planned in the frozen contract is not
+a retry merely because it follows another check (for example, the planned
+pre-edit and post-edit runs of the same unchanged check); it still consumes
+applicable time, usage and capacity. No-progress/cosmetic/unchanged candidates and
+relabeled blockers stop regardless of remaining budget.
+
+Reserve capacity in the shared ledger before parallel dispatch; do not count
+one slot twice or admit work that cannot fit the remaining time, attempt,
+usage, or concurrency bounds. Reconcile reservations with observed consumption
+and release only verified unused capacity. While work is active, recheck
+capacity using the recorded sources. If a limit is reached or accounting is
+lost, start no new work or retry. Safely pause, cancel, or drain affected
+in-flight work only through authorized controls, record what actually stopped
+or remains active and what could not be accounted for, then hold.
+
+Continue only with an explicit bounded extension from the authorized decision
+maker, linked to the existing run and receipts. Record affected item/scope,
+added capacity, deadline and observable accounting; retain elapsed and
+attempt/usage history and reservations. Replacement, reboot, a new route or
+renaming the run does not restore capacity. Do not infer spending, a third
+review cycle, or other reserved authority from a budget extension. Use host
+limits where available; documented rules are not proof of runtime enforcement.
 
 ## Models and Fallbacks
 
@@ -183,8 +232,15 @@ Each contract records, at minimum:
 - inputs, expected behavior or output, and the assertion/oracle or validation
   criteria;
 - positive, negative, and edge cases;
-- direct dependencies, downstream dependents, and the rebuild boundary; and
-- relevant permissions, security, and privacy constraints.
+- direct dependencies, downstream dependents, and the rebuild boundary;
+- relevant permissions, security, and privacy constraints; and
+- expected check outcomes and applicable approval requirements.
+
+Freeze the plan and contract by identity. Record actual approvals, check
+identities, adequacy, and results after the events in dated append-only
+receipts linked to the plan and contract. A plan or template entry does not
+approve a future action or establish that it occurred. Correct receipts with
+dated, linked successors; do not edit prior records.
 
 Use the applicable path above: standard/high retains G3, G4 and independent
 adequacy; eligible trivial/low uses scope/acceptance authorization and owner/PM adequacy.
@@ -201,16 +257,21 @@ A contract change invalidates the affected transitive downstream test,
 validation, and implementation or product-artifact subgraph. Unrelated work
 remains valid. Preserve superseded IDs and evidence, assign new revision or
 lineage IDs to rebuilt artifacts, and record the discarded and rebuilt
-relationships. The PM may approve a rebuild affecting two or fewer downstream
-work items. More than two downstream work items requires a HITL decision:
-`1. Approve`, `2. Revise`, or `3. Stop/Defer`.
+relationships. The PM may approve a rebuild affecting at most two downstream
+work items only under verified explicit delegation covering that routine
+decision. Record the delegation source, scope and count. A count grants
+no authority to widen scope, change risk, spend, or make reserved decisions.
+If delegation is absent, stale, outside scope, or the limit is exceeded, hold
+affected work and obtain a HITL decision: `1. Approve`, `2. Revise`, or
+`3. Stop/Defer`. Repeat invalidated reviews and gates before resuming;
+unrelated work remains valid.
 
 ## Strict Gates
 
-The trivial/low shortcut is eligible only for non-public-facing work without
-security/privacy-sensitive triggers, as defined in SKILL.md. Public-facing work
-uses at least standard G4 and independent review/testing controls; sensitive
-work follows its applicable standard/high controls even if otherwise low consequence.
+Use the sole [risk-and-control matrix](lifecycle-gates.md#2-classify-risk-before-selecting-gates)
+for classification, controls, and eligibility. Use its first-run, N/A, and
+missing-reference recovery rule rather than treating missing approval,
+reviewer or evidence as an exception.
 
 Interview questions must link to the stated problem. Freeze problem,
 measurable outcome, scope, exclusions, risk basis, and acceptance expectations
@@ -219,21 +280,7 @@ finding, and blocker-ledger identities and links; any missing, empty, duplicate,
 dangling/unsafe, relabeled, or no-progress record stops with a minimized reason
 and defined recovery.
 
-Classify work before choosing ceremony: `trivial`, `low`, `standard`, or
-`high/critical`. Escalate to `high/critical` for materially sensitive-data handling or exposure,
-security/authentication, secrets or credentials, production infrastructure,
-payments, destructive data/schema migrations, or public release. Assess actual sensitivity, handling changes, exposure and consequence.
-The mere presence of ordinary authorized internal, public or synthetic data alone
-is not a leak or automatic high/critical classification. Internal use is never an
-exemption for genuine security or sensitive-data risks. Public availability does
-not grant permission for new sharing; platform transmission/confirmation rules remain.
-
-- **Eligible trivial/low:** explicit scope/acceptance authorization, concise brief/validation
-  plan, owner/PM adequacy and validation, G4 not applicable with rationale.
-- **Standard:** require build-package, pre-code review, execution, acceptance, commit, and applicable release approvals.
-- **High/critical:** require all nine gates.
-
-At every required human approval gate, stop and wait. Present the decision as: `1. Approve`, `2. Revise`, or `3. Stop/Defer`, then record the choice and its evidence. A genuinely inapplicable gate remains visible in `status.md` as `Not applicable` with its rationale and closeout evidence.
+At every required human approval gate, stop and wait. Present the decision as: `1. Approve`, `2. Revise`, or `3. Stop/Defer`, then record the choice and its evidence. Record a genuinely inapplicable gate in status or the eligible lightweight ledger as specified in the lifecycle reference.
 
 The blocking points below apply where the risk path requires them. Use the
 development approver for routine delegated development decisions; owner-reserved
@@ -242,14 +289,22 @@ decisions remain with HITL:
 | Gate | Required decision before proceeding |
 | --- | --- |
 | G1 | Scope approval before the approved work is treated as the project boundary. |
-| G2 | Build-package approval before pre-code work is treated as code-ready. |
+| G2 | Where applicable under the matrix, build-package approval before pre-code work is treated as code-ready. |
 | G3 | Pre-code review approval before execution can be requested. |
 | G4 | Standard/high: explicit development-approver authorization before actual checks or product work. Eligible trivial/low: not applicable; scope authorization instead. |
 | G5 | Manual acceptance of finished source before commit or release decisions. |
 | G6 | Explicit commit authorization where version control is used. |
-| G7 | Explicit owner/HITL deployment authorization before package/runtime promotion or other deployment. |
-| G8 | Explicit post-deployment acceptance after installed/released verification. |
-| G9 | Explicit push/PR/closeout authorization after durable records are complete. |
+| G7 | Explicit owner/HITL deployment authorization before any triggering action for deployment, public release or active install, in addition to authority for the triggering action. |
+| G8 | Explicit post-deployment acceptance after independent installed/released verification and runtime-to-approved-source comparison. |
+| G9 | Explicit authorization per scoped push, PR, merge or closeout activity; see lifecycle activity mapping and separate CI/effect authority. |
+
+For candidate, CI, merge, promotion, and closeout, follow
+[Map gates to activities](lifecycle-gates.md#map-gates-to-activities).
+Identify effects before acting and bind decisions to actual scope and exact
+identities. A CI workflow automatic on push/PR still needs its separately
+verified authority, as do any credential/secret access and egress. Required
+PR-only evidence blocked by G5/G6 prerequisites is `not run / hold`,
+not N/A or pass.
 
 No agent may provisionally cross a hard gate. Material approved changes reopen the affected risk assessment, reviews, and gates; they do not inherit approval from the earlier version.
 
@@ -261,7 +316,12 @@ in-scope correction; require meaningful measurable progress and stop unchanged,
 cosmetic, no-progress, or relabeled-blocker attempts. Every finding must be
 plain-language, requirement-traced, and paired with a holistic project-level
 solution. Maintain a bounded blocker ledger with stable identity, recurrence,
-disposition, progress, and stop state, without a numeric cap.
+disposition, progress, and stop state.
+
+Preserve the applicable project review limit. Where it requires one initial
+review and one correction/verification pass (such as CONV1-06), obtain an
+explicit owner/HITL decision before a third review cycle. A run budget or PM
+delegation does not waive that decision.
 
 Conduct one PE/SecOps reconciliation. For ordinary findings, the PM may select
 the best-supported remedy or escalate; unresolved security/privacy findings
