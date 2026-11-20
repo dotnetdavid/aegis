@@ -1,59 +1,47 @@
-# Aegis v2: Leaner and Meaner
+# Aegis v2.1.0: Leaner and Meaner
 
 ![Aegis: Build with AI. Decide with confidence.](assets/aegis-hero-v2.png)
 
-Aegis helps an AI coding assistant turn an idea into bounded work, tested changes, and reviewable decisions. It keeps the useful stage gates while scaling the paperwork to the actual risk.
-
-This is a local publication candidate, not a published release. It contains the tested lean workflow with the invocation renamed to `$aegis2`. It does not include a model-selection dialog or an automated enforcement engine.
+Aegis helps an AI coding assistant turn an idea into bounded work, tested changes, and reviewable decisions. Use `$aegis` in Codex; the version is shown separately as **Aegis v2.1.0**.
 
 ## How it works
 
-The PM coordinates scope, requirements, delegation, evidence, and communication without implementing product changes. Coder, Tester, SecOps, and Documentation roles do the work needed for the assignment. Independent review remains independent of the coordinating PM.
+The PM coordinates scope, requirements, delegation, evidence, and communication without implementing product changes. For eligible reversible internal work, use one compact run brief and linked results. Name the human implementer or one bounded delivery agent. Public-facing work retains at least standard controls; security, privacy, and other higher-consequence work retains its applicable safeguards. Independent review remains independent of the PM.
 
-The nine gates remain: scope, build package, pre-code review, execution authorization, acceptance, commit, deployment, post-deployment acceptance, and push/PR/closeout. Applicability and evidence scale with risk. Explicit owner delegation can authorize bounded routine development decisions; it does not authorize new spending, expanded scope, production promotion, or public release.
+Each governed project has one current `spec.md`. Code and observed checks show what exists; the approved spec defines what is required. Freeze the run plan and record approvals, reviews, and results in dated receipts only after they occur. Set time and retry bounds before work and hold when capacity or authority cannot be verified.
 
-Each governed project has one current `spec.md`. Run-specific build packages refer to that specification rather than creating competing specifications. Decisions and verification evidence remain inspectable.
+New executable behavior and fixes require intended RED before edits and GREEN with the unchanged checks afterward. Behavior-preserving refactors require a passing baseline and the same passing checks afterward. A failed baseline blocks the refactor path.
 
-Aegis is procedural guidance for an assistant, not a sandbox, permission system, or guarantee that an agent cannot leave its mandate. Host permissions and human review still matter.
+The nine gates remain: scope, build package, pre-code review, execution authorization, acceptance, commit, deployment, post-deployment acceptance, and push/PR/closeout. Authorize actions according to what they actually do. For example, approving a candidate PR does not authorize its CI effects, merging it, or deploying it.
+
+Aegis is guidance, not a sandbox, permission system, or enforcement engine. Host permissions and human review still matter.
 
 ## Install
 
-Copy the complete `skill/aegis2` folder, including its `agents` and `references` folders, into your Codex personal skills directory, normally `~/.agents/skills/aegis2`, or your repository's `.agents/skills/aegis2`. Use the skill directory supported by your host installation. Keep a backup of an older Aegis installation outside active skill-discovery folders before deactivating it. Do not delete project records or the old source history.
+To install, put the complete `skill/aegis` folder, including `agents` and `references`, in one discovery location: normally `~/.agents/skills/aegis` (personal) or `.agents/skills/aegis` in the relevant repository. Do not install duplicate active copies. Publishing these files does not install or replace a local skill.
 
-Windows PowerShell and WSL are separate hosts. Install in each host where you intend to run Aegis, or deliberately arrange a shared readable source. Start a fresh Codex session and confirm it discovers `aegis2`; old sessions may retain the prior skill.
+Use one active `aegis` slot. A `git pull` updates the installed package only if Codex discovers the tracked folder from that checkout, directly or through an existing supported link. If Codex uses a separately copied package, replace the entire installed folder from the intended release; do not merge old and new files.
 
-Before starting Codex, create and enter the project directory. A shell's current directory is not changed by a request to save the final result somewhere else. Verify the actual working directory and writable scope before any file creation. Never start a trial inside a credentials directory.
+1. Stage and verify the intended release outside live discovery. Check the complete package, expected version and source; use a truly isolated Codex environment if testing discovery before cutover.
+2. Close affected Codex sessions before modifying the active discovery locations. After the owner approves the exact locations, replace the complete package in the existing slot. If migrating from `aegis2`, retire only the approved legacy slot before exposing the new one. Never make both slots discoverable at once.
+3. In a fresh Codex session, confirm that exactly one active `aegis` entry resolves to the intended source and version. If verification fails, stop using the skill and restore the intended prior release from GitHub into the single active slot, with approval for the affected location. Do not keep a second active copy or a local rollback copy.
+
+Windows PowerShell and WSL are separate hosts. In a fresh Codex session, confirm the loaded skill name, metadata version, actual source, working directory, and writable scope before any writes. Do not run the examples in a credentials directory.
 
 ## Getting started: calculator demo
 
-1. Follow the install steps above, then open a fresh Codex session in an empty,
-   isolated project folder. Before any writes, confirm the loaded aegis2 skill
-   source, actual working directory, and writable scope.
-2. Open the [baseline prompt](examples/calculator/calculator-create.md) and
-   paste its text block into Codex. Expect a self-contained offline calculator
-   with keyboard support, tested arithmetic, and recoverable errors.
-3. After reviewing and accepting the baseline, paste the
-   [percent prompt](examples/calculator/calculator-percent.md) into the same
-   project. Expect unary percent: 5% = 0.05, 50 × 5% = 2.5, and
-   200 + 10% = 200.1. Keep the original regression checks.
-
-Keep all project outputs in the isolated folder. Neither step requires a
-commit, deployment, or publication. The Hermes port is not included.
-
-## Models and effort
-
-Use an approved project mapping to models actually available in the host. Record the actual model and reasoning route when exposed; otherwise mark them unknown. The proposed per-role model/effort/speed selection dialogue is not included in this candidate.
+1. In an empty, isolated project folder, invoke `$aegis` and paste the text block from the [baseline prompt](examples/calculator/calculator-create.md).
+2. Review and accept the baseline before pasting the [percent prompt](examples/calculator/calculator-percent.md) into the same project. Keep the original regression checks.
+3. Keep all project output in the isolated folder. Neither example requires a commit, deployment, or publication.
 
 ## Validation and limits
 
-Owner-provided PowerShell and WSL Codex session reports exercised a new calculator and a small percent enhancement using the lean UAT source. Both reported test-first work, regression checks, independent reviews and scoped gate closure. PowerShell used Firefox; WSL used Chromium with owner-run assistance when the automated browser sandbox was unavailable. These are owner-reported outcomes from the earlier lean source. A fresh rerun of this packaged example was deferred; no new calculator pass is claimed.
+Both calculator examples passed owner acceptance before the stable-name change using session-local guidance. That did not verify native skill discovery or the installed source under the stable name. Native discovery, a fresh calculator rerun, live CI, and timing or false-stop measurements are not verified for this version.
 
-The percent iteration reported 98 PowerShell acceptance cases plus the archived 58-case regression, and 102 WSL core cases plus the archived 63-case regression. Browser reports covered 20 Firefox groups and 31 Chromium checks. Counts are different suites, not a quality ranking or a controlled speed benchmark. No screen-reader certification, hard agent-containment proof, universal host compatibility or performance guarantee is claimed.
-
-Packaging checks verify the six-file identity and privacy scan separately. See `RELEASE-NOTES.md` for candidate boundaries.
+See [release notes](RELEASE-NOTES.md) for scope and release boundaries.
 
 ## Creator and license
 
 Created by David A. Frey.
 
-Copyright (c) 2026 David A. Frey. Licensed under the [MIT License](LICENSE). You may use, modify, and redistribute this work, including commercially, subject to the license terms. Keep the copyright and permission notice with copies or substantial portions.
+Copyright (c) 2026 David A. Frey. Licensed under the [MIT License](LICENSE). Keep the copyright and permission notice with copies or substantial portions.

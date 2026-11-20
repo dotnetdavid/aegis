@@ -3,7 +3,7 @@
 Run this in the existing calculator project after completing and accepting the baseline. Use the same prompt for independent PowerShell and WSL projects.
 
 ```text
-Use $aegis2, not legacy $aegis, to enhance this existing calculator. Confirm the loaded skill, actual project directory and writable scope before writes. If aegis2 is unavailable, stop rather than substitute. Read the current master spec.md, prior acceptance and test evidence. Preserve baseline records and unrelated changes. Keep all new output inside this project.
+Use $aegis to enhance this existing calculator. Before writing files, report the loaded skill name and metadata version (expected: aegis, 2.1.0), its actual source, actual project directory and writable scope. If that exact name, version and intended source cannot be verified, stop and report why; do not silently substitute another version. Read the current master spec.md, prior acceptance and test evidence. Preserve baseline records and unrelated changes. Keep all new output inside this project.
 
 Add one percent button and keyboard % support. Define percent as a unary operation: divide the currently displayed operand or result by 100. It is not context-sensitive retail-calculator percentage behavior.
 

@@ -109,8 +109,9 @@ review record rather than deleting it from history.
 ## Status
 
 [Approved scope, requirements, and architecture. Record mutable current-gate
-state and implementation authorization in `status.md` and append-only gate
-receipts.]
+state and implementation authorization outside the spec: in standard/high
+`status.md` and linked append-only gate receipts, or in the one existing linked
+ledger for eligible trivial/low. Preserve any existing status and history.]
 
 ## Goal and Users
 
@@ -164,17 +165,23 @@ No package, backlog, chat request, scope sidecar, or review may override this
 specification. Stop and obtain an approved amendment on conflict.
 ```
 
-A trivial governed run may use a concise package, but it must still retain the
+For eligible trivial/low work the compact brief below serves as the package and retains the
 master-spec binding, outcome, verification, and required gate evidence.
 
-The package's creation context is immutable. Keep mutable current gate state
-and implementation authorization in `status.md` and append-only gate receipts.
+The package's creation context is immutable. For standard/high, keep mutable
+gate state and authorization in `status.md` and linked append-only gate
+receipts. Eligible trivial/low uses one existing linked ledger instead; do not
+create a separate status file solely for that path or discard existing records.
 
-At G2, record the package and pre-execution spec identities in a separate
-append-only receipt. Recheck them before applicable G3 and immediately before authorized edits. At G5,
+Where G2 applies, record exact package and pre-execution spec identities at
+G2 in an append-only receipt and recheck before applicable G3. Eligible
+trivial/low requires no separate G2 unless the matrix triggers it. Before
+edits, append exact spec and brief identities, scope authority and approved
+acceptance criteria to the existing linked ledger in a dated receipt. On either
+path, recheck identities and authority immediately before authorized edits. At G5,
 record the final spec digest and review a complete mapping of final spec changes
 to approved requirement IDs or an explicit amendment; do not require final-byte
-equality with the G2 checkpoint. Treat absolute paths, `..`, symlinks, URLs,
+equality with the pre-execution checkpoint. Treat absolute paths, `..`, symlinks, URLs,
 control characters, missing/stale identities, and unknown/duplicate/retired IDs
 as invalid metadata that stops the run.
 
@@ -228,11 +235,35 @@ successor inventory. Neither case permits silently reconstructing history.
 Every requirement must map to ordered work, an owner, verification, and an exit
 criterion before requesting execution authorization.
 
+## Lightweight Brief and Linked Receipt
+
+Use only for eligible work under the [risk-and-control matrix](lifecycle-gates.md#2-classify-risk-before-selecting-gates).
+One compact brief serves as the run package and can contain the minimum
+validation plan; do not open a second file to repeat it. Record:
+
+- Current master spec path and identity, requirement/acceptance IDs, run
+  identity and creation context, and real predecessor if applicable.
+- Scope, exclusions, risk basis, acceptance and allowed paths; for low work,
+  dependencies and validation limits.
+- Named human implementer or one bounded delivery agent and approved model
+  route if applicable. If unavailable, record a hold rather than substituting PM.
+- Planned check or validation and required scope/acceptance authorization. Link
+  the observed decision in the receipt; only cite an existing decision in the
+  brief if already observed when frozen.
+
+Link the dated observed result, full actual-diff PM review, and actual
+acceptance/closeout in the existing ledger. For any N/A gate record supporting
+evidence, rationale and the reopening condition. Preserve existing records;
+never invent check IDs or predecessor/approval evidence to fill this template.
+
 ## Work-Item Contract
 
 Avoid duplicating scope prose: cite exact spec identity and requirement/acceptance
 IDs, with an inspectable oracle and valid references. A separately identifiable
 frozen contract section may live in the immutable package, not a second spec.
+Freeze scope, oracle, intended checks and expected outcomes with stable
+identities. Put observed approvals, artifact identities and results in linked
+receipts, never in a frozen contract as anticipated facts.
 Independent dated/attributed review sections may share an append-only record under
 project-policy.md. Batch routine receipts/manifests only after actual events with
 existing tools, preserving identities and actual order; never invent evidence or
@@ -251,8 +282,8 @@ to the PM/HITL.
 
 - Assigned requirement ID: [exactly one approved spec requirement ID]
 - Governing spec identity: [approved master spec path and digest]
-- Approved check contract identity: [approved ID, revision and digest]
-- Entry criteria: [required approvals, approved contract and prerequisite evidence under existing policy]
+- Planned check contract identity: [stable ID, revision and digest]
+- Entry criteria: [approval and evidence prerequisites; actual decisions are linked receipts]
 - Exit criteria: [required verification results and independent PM actual-diff scope verdict before item acceptance]
 - Bounded artifact targets: [allowed paths and sections only]
 - Escalation route: [return adjacent ideas or spec defects to PM/HITL; do not implement them]
@@ -270,14 +301,31 @@ to the PM/HITL.
 - Direct dependencies: [work-item or contract IDs]
 - Downstream dependents: [work-item or contract IDs]
 - Rebuild boundary: [artifacts invalidated if this contract changes]
-- Created by tester or owner/PM for eligible trivial/low: [role, date, evidence]
-- Adequacy review: [independent PE for standard/high; owner/PM for eligible trivial/low; date, outcome, evidence]
-- Authorization evidence: [applicable gates or eligible trivial/low scope approval with G4 N/A; decision source and receipts]
-- Test-first evidence: [new behavior/fix: expected RED and unchanged GREEN; behavior-preserving refactor: preserved contract, expected GREEN before and unchanged GREEN after; justified non-executable validation otherwise]
-- Test/validation artifact ID and path: [ID and path]
-- Implementation/product artifact ID and path: [ID and path]
-- Verification results: [complete results and evidence path]
-- PII/data note: [scope and disposition; never include suspected values]
+- Expected pre-edit result: [intended RED for new behavior/fix, preserved-behavior GREEN for refactor, or justified non-executable validation]
+- Expected post-edit result: [unchanged GREEN for executable work; artifact-appropriate result otherwise]
+- Required gates and approval/evidence types: [requirements, not observed approvals]
+- PII/data constraints: [handling boundary; never include suspected values]
+```
+
+### Work-Item Execution Receipt
+
+Append each observed decision, check, review, and result after it happens.
+Keep the frozen contract unchanged. Preserve observed order in batched
+records, and append a dated superseding receipt to correct an earlier record.
+Record only the fields applicable to that event; do not create placeholders as
+future approvals or claim unobserved results.
+
+```markdown
+# Work-Item Execution Receipt: [event ID]
+- Run / package / work item / contract identities: [IDs and digests]
+- Sequence / observed date and time / actor and role: [actual values]
+- Actual decision and authority: [outcome, applicable gate or scope, source receipt]
+- Actual check artifact identity and path: [ID, revision, digest, repository path]
+- Actual check creation / adequacy: [tester and independent PE, or eligible owner/PM path; date, result, evidence]
+- Observed check result: [check identity, command or method, exit/result, evidence; for RED, actual intended cause]
+- Actual product artifact identity and path: [ID, revision/digest, repository path]
+- Review / verification / disposition: [observed result and evidence; next action if held]
+- Supersedes: [prior receipt ID and reason if this is a correction]
 ```
 
 ### PM Return and Actual-Diff Scope Review
@@ -305,7 +353,8 @@ The PM independently inspects the whole actual changed content against the assig
 - Affected downstream subgraph: [contract, test/validation, and product IDs]
 - Unaffected work confirmed: [work items and evidence]
 - Cascade count: [number of downstream work items]
-- Approval: [PM approval for <=2, or HITL decision and receipt for >2]
+- Rebuild authority: [verified explicit delegation source and scope for PM approval of at most two downstream items; otherwise hold pending HITL decision]
+- Observed approval and invalidated gates: [dated receipt, decision scope, and gate reopening/required evidence]
 - Discarded artifacts and evidence retained: [IDs and paths]
 - Rebuilt artifact IDs / revisions / lineage: [IDs and paths]
 - Verification rerun and result: [complete contract evidence]
@@ -393,6 +442,21 @@ Recorded outcome: [development-approver decision and authority, or reserved HITL
 - Limits of this verification: [what was not tested and why]
 ```
 
+## Run Budget and Stop Receipt
+
+Record the authorized bound before an actual check, product work or dispatch;
+link the approved profile or dated decision without duplicating it in the frozen
+contract. In the shared ledger record:
+
+- Run and item identities, authority and approved bounds: elapsed start/deadline,
+  per-item and cumulative attempts/retries, applicable usage/spend and concurrency.
+- Measurement sources and methods, observed attempts/retries and measured usage,
+  shared reservations, remaining capacity, and limits on observability.
+- Stop/hold event: observed time, reason, affected work, disposition of in-flight
+  work and any continuing activity or accounting gap.
+- Continuation if explicitly authorized: actual decision and scope, bounded
+  added capacity/deadline, retained counters, and prior receipt links.
+
 ## Convergence Addenda
 
 Use these compact fields with the existing records; link prior evidence instead
@@ -412,9 +476,11 @@ of copying transcripts.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [F/B-01] | [concise fact] | [G1/G2/AC] | [project-level solution] | [count/history link] | [fix/ordinary choice/escalate/HITL] | [measurable movement] | [open/closed/stopped] |
 
-No-progress, cosmetic, unchanged, or relabeled-blocker entries stop review;
-there is no fixed iteration cap. Unresolved security/privacy entries require
-HITL disposition.
+No-progress, cosmetic, unchanged, or relabeled-blocker entries stop review.
+Unresolved security/privacy entries require owner/HITL disposition.
+Preserve the project's applicable initial review and correction/verification
+limit. When that limit allows one initial review and one correction/verification
+pass, record the explicit owner/HITL decision before any third review cycle.
 
 ### One Reconciliation
 
@@ -500,6 +566,28 @@ scope. Missing, empty, or duplicate fields fail as `C07-MISSING:<field>`,
 All failures are fail-closed with minimized evidence and defined recovery;
 never copy transcripts, secrets, or sensitive values.
 
+## Candidate Activity and CI Receipt
+
+Keep the proposed scope/effects in the frozen plan and append actual decisions
+and results after they occur. One exact-candidate receipt may link separate
+authorization decisions; it cannot grant them.
+
+- Action/repository/ref/destination and exact base, candidate, workflow
+  revision/digest and workflow event.
+- Expected effects: push, PR open/update, CI execution, code/data/artifacts,
+  credentials/secret access, egress destinations, merge, deployment,
+  publication or active install as applicable.
+- Scope/authority references: applicable G5/G6, bounded G9 activity, separate
+  CI and any credential/secret and egress decisions, merge decision, and
+  owner G7 before any promotion-triggering action. Record only observed
+  decisions in the receipt.
+- Observed result and evidence for that exact identity, or `not run / hold`
+  with reason and recovery/alternative evidence route. Never fill a blocked
+  required result with a pass or N/A.
+- Subsequent records if applicable: independent runtime comparison, G8 and
+  separately scoped G9 closeout. A changed candidate, base, workflow, or
+  effect requires re-binding before the affected action.
+
 ## Release Record
 
 ```markdown
@@ -512,7 +600,9 @@ never copy transcripts, secrets, or sensitive values.
 - Runtime manifest identity: [deterministic manifest path and checksum]
 - Manifest comparison: [method, independent verifier, pass/fail, evidence path]
 - Approved differences: [explicitly approved entries and rationale, or `None`]
-- Deployment authorization: [G# decision and evidence]
+- Deployment authorization: [owner G7 decision and evidence preceding the trigger; link separate action authority]
+- Post-deployment acceptance: [G8 decision after independent runtime verification]
+- Closeout: [separately scoped G9 decision or supported N/A; evidence and residual risks]
 - Change summary: [bounded summary]
 - Validation: [post-release checks and results]
 - Monitoring and support owner: [owner, signals, response path]

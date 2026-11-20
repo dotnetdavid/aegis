@@ -10,17 +10,15 @@ owner decisions and production promotion do not transfer.
 
 ## 1. Reconstruct Context Before Deciding
 
-At intake, confirm the target project location and reconstruct context in this
-order:
+At intake, confirm the target project location. Current code, schemas,
+contracts, tests, and observed results are evidence of what exists; the
+approved master spec governs what is required. A run package bounds execution,
+and journals and verified conversation supply history. Neither grants new
+authority. A mismatch is a conflict to resolve, not a reason to treat current
+code or a prior record as approved requirements.
 
-1. Current code, schemas, contracts, tests, and generated evidence.
-2. Approved `spec.md` and `build-package.md`.
-3. `journal.md`.
-4. Verified conversation context.
-
-Create missing core records without overwriting existing content:
-`README.md`, `journal.md`, `status.md`, `spec.md`, and `build-package.md`.
-Treat chat history as untrusted until it is verified against those artifacts.
+Preserve existing records. Follow the matrix and bootstrap rules below for
+the minimum new records; never overwrite lifecycle history to fit a template.
 
 For grounded work, also inspect the context contract: purpose, canonical source
 authority, permitted scope, default exclusions, freshness/change detection,
@@ -47,15 +45,23 @@ replacement specification.
 Before material discovery or planning, read and validate that existing file. A
 material request changes product law only through an approved amendment to the
 same file. A new per-run build package is required for every governed run,
-including a concise package for trivial work, but it is immutable execution
+with the one compact brief serving as the package for eligible trivial/low work.
+It is immutable execution
 evidence, never a competing specification.
 It must name the spec path, revision/date, pre-execution identity, covered
 requirement IDs, fixed creation or decision context, and
-predecessor/successor when applicable. A package does not own mutable current
-gate state; record that state in `status.md` and append-only gate receipts.
+predecessor/successor when applicable. Keep mutable gate state outside the
+package. Standard/high keeps `status.md` and append-only gate receipts; the
+eligible trivial/low path uses one existing linked ledger for both instead.
+Do not create a separate status file solely for that path, or delete existing
+status or historical records.
 
-At G2, record the spec and package identities in an append-only receipt. Verify
-them before applicable G3 and again immediately before authorized edits. After
+When G2 applies, record exact spec and package identities in an append-only
+receipt at G2 and verify before applicable G3. Eligible trivial/low needs no
+separate G2 unless the matrix triggers it. Its equivalent pre-edit record is a
+dated receipt in the existing linked ledger with exact spec and brief identities,
+scope authority and approved acceptance criteria. Recheck identities and authority
+immediately before edits on either path. After
 execution authorization, final-spec acceptance requires its approval receipt, an explicit map from every final spec
 change to approved requirement IDs or an approved amendment, and a final digest
 recorded at G5. The final digest is evidence of the resulting approved spec; it
@@ -74,10 +80,9 @@ rewriting approved history.
 
 ## 2. Classify Risk Before Selecting Gates
 
-The trivial/low shortcut is eligible only for non-public-facing work without
-security/privacy-sensitive triggers, as defined in SKILL.md. Public-facing work
-uses at least standard G4 and independent review/testing controls; sensitive
-work follows its applicable standard/high controls even if otherwise low consequence.
+The **sole authoritative risk-and-control matrix** below provides the
+minimum controls. Use the strictest applicable classification and retain the
+controls required by the activities actually proposed.
 
 Convergence records are complete only when interview questions link to the
 stated problem and protected G1 fields are frozen separately from solution.
@@ -126,33 +131,94 @@ empty, or duplicate fields fail as `C01-MISSING:<field>`/
 
 | Classification | Typical work | Minimum control |
 | --- | --- | --- |
-| `trivial` | Small, reversible, isolated change | Record scope, verification, and closeout. The PM may perform testing. |
-| `low` | Bounded change with limited consequence | Obtain scope and acceptance approval; keep a concise code-ready brief before coding. |
-| `standard` | Durable product work or a meaningful integration | Use the build package, pre-code review, G4 execution approval, G5 acceptance, G6 commit approval, and applicable release gates. Require independent testing and SecOps. |
-| `high/critical` | High consequence, sensitive, irreversible, or externally exposed work | Use all nine gates, independent testing, SecOps, an ADR for each material decision, and risk-proportionate operational evidence. |
+| `trivial` | Isolated, reversible, non-public-facing work without a security/privacy-sensitive trigger; for example, an internal typo with no behavioral effect | Current spec binding and one compact brief naming the implementer, allowed scope, acceptance and check; explicit scope/acceptance authorization before edits, proportionate validation, and linked closeout evidence. G4 N/A with rationale. Owner/PM adequacy and validation allowed, not independent. |
+| `low` | Bounded, reversible, non-public-facing work with limited consequence and no security/privacy-sensitive trigger | Same lightweight minimum, plus dependencies and validation limits in the brief. Keep existing records; the brief serves as the run package, and an existing ledger can hold status and linked observed receipts without duplicating fields. |
+| `standard` | Durable product work, meaningful integration, any public-facing engineering even if otherwise low consequence, or a security/privacy-sensitive trigger not escalated to high/critical | Full build package and applicable G2, pre-code review (G3), explicit G4 before actual checks or product work, G5 acceptance, G6 commit approval, and applicable release controls. Require independent testing, review and SecOps; no lightweight route. |
+| `high/critical` | High consequence or irreversible work; materially sensitive-data handling or exposure, security/authentication, secrets or credentials, production infrastructure, payments, destructive data/schema migrations, or public release | Full nine-gate model, independent testing and reviews including SecOps, an ADR for each material decision, and risk-proportionate operational evidence. Record a gate as N/A only under the rule below. |
 
-Classify work before choosing ceremony: `trivial`, `low`, `standard`, or
-`high/critical`. Escalate to `high/critical` for materially sensitive-data handling or exposure,
-security/authentication, secrets or credentials, production infrastructure,
-payments, destructive data/schema migrations, or public release. Assess actual sensitivity, handling changes, exposure and consequence.
-The mere presence of ordinary authorized internal, public or synthetic data alone
-is not a leak or automatic high/critical classification. Internal use is never an
-exemption for genuine security or sensitive-data risks. Public availability does
-not grant permission for new sharing; platform transmission/confirmation rules remain.
+Assess actual sensitivity, handling changes, exposure, and consequence. Merely
+using ordinary authorized internal, public, or synthetic data does not make the
+work high/critical. Internal use does not exempt genuine security or sensitive
+data risks. Public availability does not authorize new sharing or change
+platform transmission/confirmation rules. A public-facing typo is at least
+standard; a change to authentication or a public release is high/critical.
 
-Eligible trivial/low work uses explicit scope/acceptance authorization, concise brief and
-validation plan, owner/PM adequacy and validation; G4 is not applicable with
-recorded rationale. Standard/high work retains applicable G3/G4 and independent
-review/testing. Apply phases and ledgers only as required by that risk path.
+### First run, not applicable, and recovery
+
+- **First run:** Verify the project root, whether a master spec already exists,
+  applicable authority, scope and risk read-only. If the master spec is genuinely
+  absent in a new project, obtain applicable authorization before creating the one
+  root spec, then validate and bind it before material planning or delivery.
+  If no ledger exists at authorized setup, establish one for the run; do not
+  create a separate status file solely for eligible trivial/low work.
+  Register the actual initial baseline and record absence of a predecessor as
+  `None (first run)`; this is not an ID or a substitute for approval. C03 applies to
+  subsequent deltas, which require a real predecessor. If expected existing
+  authority is missing or conflicted, hold instead of bootstrapping a replacement.
+- **Structured N/A:** Only the matrix excluding a gate or a genuinely absent
+  triggering activity makes a gate N/A. Record the reason, supporting reference,
+  and the condition that reopens it, in status or the lightweight ledger and
+  closeout. An unborn check or absent trigger does not create a check ID,
+  approval, or successful result. Required identity and evidence fields must
+  still be supplied.
+- **Hold and recover:** If a required reference, reviewer, approval or evidence
+  is missing, unsafe, stale, conflicting or unavailable, stop the affected work.
+  Record the blocked action, evidence gap, accountable role and recovery
+  condition without modifying prior receipts. Recover the trusted reference or
+  obtain an approved successor and repeat invalidated decisions; never proceed
+  on guessed references, inferred approval, or N/A.
+
+### Map gates to activities
+
+Use the actual effect, not a gate label, to determine authority. Preserve
+applicable G5 acceptance and G6 commit approval before committing or using a
+candidate push/PR route that requires that commit. A scoped G9 may authorize a
+candidate push and opening or updating a non-promoting PR against an exact
+candidate. It does not authorize merge, promotion, unrelated changes, or
+closeout. Non-promoting candidate review does not require G8.
+
+Before acting, pin the repository/ref and exact base, candidate and workflow
+identity and event. Determine whether the action opens or updates a PR,
+triggers CI, uses particular code/data or artifacts, touches credentials or
+secrets, sends traffic outside the execution boundary, changes another
+destination, deploys, publicly releases, or actively installs a package.
+Record the effect and obtain authority for the named action and separately
+for applicable CI execution, credentials/secret access and egress, including
+destinations. If an operation auto-triggers CI, confirm the CI authority
+before the operation, not after. Unknown workflow effects or changed
+identities invalidate the action's evidence/approval binding: hold, verify
+what will run, and obtain fresh applicable authority. Link observed CI results
+to that exact candidate, base, and workflow; prior green does not transfer.
+
+If required G5 evidence is obtainable only through a PR workflow that cannot
+run until the applicable G5/G6 commit prerequisites are met, record
+`not run / hold`. Do not bypass either gate, infer PR or CI authority, or
+mark required evidence N/A or passed. Obtain an approved alternative evidence
+route or separately approved policy change and reopen affected decisions
+before continuing.
+
+Merge needs its own scoped authorization and applicable native review and
+CI, independent of approval to push or open/update a PR. If a push, PR, CI,
+merge, or other action triggers deployment, public publication, or active
+installation, obtain explicit owner/HITL G7 before the triggering action as
+well as authority for the action itself. After actual promotion, independently
+verify the installed/deployed result and compare its runtime manifest to the
+approved source manifest before seeking G8. Record closure separately under
+scoped G9 after applicable gates, observed evidence, residual risks, and
+follow-ups are recorded. No activity borrows authority from another.
 
 ## 3. Run the Fourteen Phases
+
+Apply each phase and gate only as required by the matrix and the proposed
+activity. The eligible trivial/low brief and linked ledger meet the run-record
+requirements without duplicate project files or an untriggered G2.
 
 | Phase | Required action | Exit evidence |
 | --- | --- | --- |
 | 1. Intake | Confirm location, objective, constraints, and initial risk. | Target and risk record; conflicts surfaced. |
-| 2. Durable project memory | Create or preserve core artifacts and record material facts. | Current `journal.md` and `status.md`. |
+| 2. Durable project memory | Create or preserve core artifacts and record material facts. | Standard/high: current `journal.md` and `status.md`. Eligible trivial/low: one existing linked ledger, with all existing records preserved. |
 | 3. Specification | Define outcomes, requirements, acceptance evidence, boundaries, and risk. | Reviewable `spec.md`. |
-| 4. Build package | Decompose every requirement into dependency-aware, bounded work with owner, model, inputs, verification, and exit criteria. | Traceable `build-package.md`; no unbounded requirement. |
+| 4. Build package | Decompose every requirement into dependency-aware, bounded work with owner, model, inputs, verification, and exit criteria. | Traceable full package or eligible compact brief; no unbounded requirement. |
 | 5. Pre-code PE review | Review requirements, architecture, dependencies, test plan, source/runtime boundaries, and minimum review dimensions. | PE review record; findings resolved, accepted, or escalated. |
 | 6. Implementation plan and delegation | Confirm task order, role assignments, question routing, and G4 boundary. | Bounded assignments and approved execution brief. |
 | 7. Incremental implementation | Make only authorized product changes; prefer small test-first increments where meaningful. | Changes mapped to work items and requirements. |
@@ -162,7 +228,7 @@ review/testing. Apply phases and ledgers only as required by that risk path.
 | 11. Commit | Commit only when version control is used and G6 is approved. | Commit decision and security evidence, or N/A rationale. |
 | 12. Deployment | Promote or deploy only when G7 is approved. Before runtime promotion, create a deterministic source-tree manifest or equivalent checksum comparison. | Deployment/promotion record with source identity, source-manifest identity, intended runtime identity, comparison method/result, approved differences, and rollback considerations. |
 | 13. Post-deployment verification | Verify the installed or deployed result and operational behavior. Independently compare the runtime manifest with the approved source manifest. | Installed-runtime or deployment verification with runtime identity, runtime-manifest identity, independent comparison evidence, and disposition of every difference. |
-| 14. Closeout | Record final status, residual risks, follow-up work, and any push/PR decision. | G9 decision and complete closeout record. |
+| 14. Closeout | Record final status, residual risks, follow-up work, and links to separately scoped candidate, CI, merge or release decisions as applicable. | Scoped G9 closeout decision and complete closeout record. |
 
 Pre-code and post-implementation reviews must assess security, best practices,
 maintainability, observability, monitoring for long-running systems, and
@@ -198,9 +264,14 @@ independence, adequacy review, scope review, or acceptance requirements.
 For non-executable work, use and record justified artifact-appropriate validation.
 Retain results and inspect evidence; authorization does not waive validation.
 
-Applicable G2 binds contracts, dependencies and rebuild boundaries; G3 reviews
-planned checks, dependencies and artifact order. G5-G9 trace evidence to contracts
-and requirements. Material contract change reopens affected gates.
+Applicable G2 binds the frozen package and contract identities, dependencies
+and rebuild boundaries; G3 reviews planned checks, dependencies and artifact
+order. Record prerequisites and intended outcomes in the plans, not claims of
+future approvals or results. Append dated receipts for actual decisions,
+actual-check identity and adequacy, pre-edit and post-edit evidence, and
+acceptance only when each event occurs. G5-G9 trace observed evidence to
+the exact plan and requirement identities. Correct receipts with dated
+successors, not edits. Material contract change reopens affected gates.
 
 All contract cases, including negative and edge cases, must pass with evidence.
 If a check fails, correct the artifact against the unchanged contract and rerun
@@ -211,10 +282,13 @@ new evidence.
 A contract change invalidates the affected transitive downstream test,
 validation, and implementation or product-artifact subgraph, while unrelated
 work remains valid. Preserve prior IDs and evidence and assign new revision or
-lineage IDs to rebuilt artifacts. The PM may approve rebuilds affecting two or
-fewer downstream work items; more than two requires a HITL decision using the
-standard numbered menu. Record the invalidation, discarded artifacts, rebuilt
-artifacts, and evidence lineage.
+lineage IDs to rebuilt artifacts. The PM may approve a rebuild affecting at
+most two downstream work items only under verified explicit delegation for that
+routine decision. The count alone grants no authority. If the boundary or
+delegation is unverified, exceeded, or a decision is owner-reserved, hold the
+affected work and obtain a HITL decision using the standard numbered menu.
+Reopen invalidated gates before resuming. Record the authorization source,
+invalidation, discarded artifacts, rebuilt artifacts, and evidence lineage.
 
 ### SecOps PII Check
 
@@ -249,7 +323,9 @@ human approval, the PM presents evidence, material risks and this menu, then wai
 3. Stop/Defer
 
 Record the selected option, approver, date, evidence location, conditions, and
-open risks in `status.md` and `journal.md`.
+open risks. For standard/high, retain `status.md` and `journal.md` with linked
+receipts. For eligible trivial/low, use a dated receipt in the existing linked
+ledger; this includes the pre-edit spec/brief and scope/acceptance binding.
 
 ### Canonical Gate Display
 
@@ -277,14 +353,14 @@ renumber gates or rewrite historical evidence solely to normalize display text.
 | Gate | Decision | Minimum evidence | Hard boundary |
 | --- | --- | --- | --- |
 | Scope Approval (G1) | Approve scope | Problem, outcomes, scope/exclusions, risk classification, acceptance criteria. | Do not finalize a specification as approved without development-approver scope approval. |
-| Build-Package Approval (G2) | Approve build package | Requirement traceability; dependency order; role/model; deliverable; verification; entry/exit criteria for every requirement. | Do not request pre-code review or execution with unbounded work. |
+| Build-Package Approval (G2) | Approve build package when applicable under the matrix | Requirement traceability; dependency order; role/model; deliverable; verification; entry/exit criteria for every requirement. | Do not request pre-code review or execution with unbounded work. |
 | Pre-Code Review (G3) | Approve pre-code review | Approved specification and build package; risk and delegation plan; PE and required SecOps review; findings disposition. | Do not prepare execution as a foregone conclusion. |
 | Execution Authorization (G4) | Authorize execution | A code-ready brief; prior approved evidence; exact source boundary; explicit exclusions. | **Standard/high: no actual checks or product before development-approver G4. Eligible trivial/low: G4 not applicable; explicit scope authorization instead.** |
 | Manual Acceptance (G5) | Accept finished source | Requirement traceability, verification results, review records, remediation or accepted-risk record. | Do not treat implementation as accepted without development-approver decision. |
 | Commit Authorization (G6) | Authorize commit | G5 decision, reviewed changes, security validation, and commit scope. | Do not commit without explicit authorization where version control is used. |
 | Deployment Authorization (G7) | Authorize deployment | Promotion/deployment plan, reviewed source, deterministic source-tree manifest or equivalent checksum comparison, intended runtime identity, approved-difference list, validation, rollback considerations, and operational evidence appropriate to risk. | **No runtime promotion, package deployment, or public release before explicit owner/HITL G7 approval. Fail promotion on every unapproved manifest difference.** |
 | Post-Deployment Acceptance (G8) | Accept deployed result | Independent post-deployment comparison of the runtime manifest with the approved source manifest; recorded source/runtime identities; monitoring/observability evidence; and unresolved risks. | Do not call a deployment accepted without owner/HITL decision or an independent manifest comparison. |
-| Push/PR/Closeout Authorization (G9) | Authorize push/PR/closeout | Final status, journal, residual risks, follow-ups, and push/PR scope. | Do not push, open/merge a PR, or close the project without explicit authorization. |
+| Push/PR/Closeout Authorization (G9) | Authorize each scoped push, PR, merge, or closeout activity | Activity-specific scope and identities, applicable authority and prerequisites; for closeout also final status, evidence, residual risks and follow-ups. | Approval for one activity does not approve another; apply the actual-effect rules above. |
 
 For eligible trivial/low work, the scope/acceptance brief may be concise; G4 is not
 applicable. For standard and
@@ -304,13 +380,10 @@ approval:
 5. For `high/critical` work, create an ADR for each material decision.
 6. Resume only after the repeated gate decision is explicit.
 
-A gate is `Not applicable` when the risk path excludes it or its triggering
-activity is genuinely not proposed. Keep it visible in `status.md`, state why, link the supporting
-context, and retain the rationale in closeout evidence. `Not applicable` is not
-a bypass: reopen when a changed risk path makes the gate applicable, or when a
-previously absent activity is proposed and the gate applies to that activity.
-Obtain approval before proceeding past the newly applicable gate; unchanged
-eligible low-risk coding does not itself make G4 applicable.
+Use [First run, not applicable, and recovery](#first-run-not-applicable-and-recovery)
+for when a gate is N/A, what to record, and when to reopen it. Obtain newly
+applicable approval before proceeding; unchanged eligible low-risk coding does
+not itself make G4 applicable.
 
 ## G2/G3 Candidate Convergence
 
@@ -320,7 +393,14 @@ and back; missing, extra, renamed, or invented links stop the run. One initial
 G2 authorizes an in-scope correction only with a new candidate identity,
 immutable lineage, meaningful measurable progress, and complete
 finding/blocker disposition. Unchanged, cosmetic, no-progress, or relabeled
-blocker candidates cannot be re-reviewed; there is no numeric iteration cap.
+blocker candidates cannot be re-reviewed.
+
+Preserve the applicable project review limit. Where it requires one initial
+review and one correction/verification pass (such as CONV1-06), obtain an
+explicit owner/HITL decision before a third review cycle. A run budget or PM
+delegation does not waive that decision.
+Check shared run capacity before any review dispatch; use the
+[Run Budget](project-policy.md#run-budget) rules for charging and stopping.
 
 Every finding is plain-language, requirement-traced, and paired with a
 holistic project-level solution. Keep a bounded blocker ledger recording stable
